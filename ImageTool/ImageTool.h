@@ -13,12 +13,14 @@
 // CImageToolApp:
 // 이 클래스의 구현에 대해서는 ImageTool.cpp을(를) 참조하세요.
 //
-
+class IppDib;
 class CImageToolApp : public CWinAppEx
 {
 public:
 	CImageToolApp() noexcept;
 
+public:
+	IppDib* m_pNewDib;
 
 // 재정의입니다.
 public:
@@ -34,6 +36,11 @@ public:
 
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
+	afx_msg void OnEditPaste();
+	afx_msg void OnUpdateEditPaste(CCmdUI* pCmdUI);
 };
 
 extern CImageToolApp theApp;
+
+// 전역 함수 선언
+void AfxNewBitmap(IppDib& dib);

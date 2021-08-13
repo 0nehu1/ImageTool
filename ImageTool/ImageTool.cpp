@@ -254,3 +254,23 @@ void CImageToolApp::OnUpdateEditPaste(CCmdUI* pCmdUI)
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->Enable(IsClipboardFormatAvailable(CF_DIB));
 }
+
+// 출력창에 영상 처리 정보 문자열 출력
+void AfxPrintInfo(CString message)
+{
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	pFrame->m_wndOutput.AddString(_T("출력창에 문자열이 추가됩니다."));
+	pFrame->m_wndOutput.AddString(message);
+}
+
+void AfxPrintInfo(LPCTSTR lpszFormat, ...)
+{
+	CString message;
+
+	va_list argList;
+	va_start(argList, lpszFormat);
+	message.FormatV(lpszFormat, argList);
+	va_end(argList);
+
+	AfxPrintInfo(message);
+}

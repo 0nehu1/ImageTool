@@ -44,3 +44,5 @@ extern CImageToolApp theApp;
 
 // 전역 함수 선언
 void AfxNewBitmap(IppDib& dib);
+void AfxPrintInfo(CString message);
+void AfxPrintInfo(LPCTSTR lpszFormat, ...);

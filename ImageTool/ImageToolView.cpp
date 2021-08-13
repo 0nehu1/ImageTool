@@ -110,7 +110,7 @@ void CImageToolView::SetScrollSizeToFit(void)
 
 	SetScrollSizes(MM_TEXT, sizeTotal);
 
-	ResizeParentToFit(TRUE);
+	ResizeParentToFit(FALSE);
 	//ResizeParentToFit(FALSE); 
 	// // ResizeParentToFit() 가급적으로 TRUE 인자를 주는 것이 좋다. 인자를 주지 않는경우 기본적으로 TRUE로 지정						  
 	// TRUE인 경우 불러온 영상의 크기가 차일드 프레임보다 작은 경우에만 프레임의 크기를 영상의 크기에 맞춘다.

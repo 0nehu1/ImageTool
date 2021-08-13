@@ -30,11 +30,20 @@ BEGIN_MESSAGE_MAP(CImageToolView, CScrollView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_WM_ERASEBKGND()
+	ON_COMMAND(ID_VIEW_ZOOM1, &CImageToolView::OnViewZoom1)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_ZOOM1, &CImageToolView::OnUpdateViewZoom1)
+	ON_COMMAND(ID_VIEW_ZOOM2, &CImageToolView::OnViewZoom2)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_ZOOM2, &CImageToolView::OnUpdateViewZoom2)
+	ON_COMMAND(ID_VIEW_ZOOM3, &CImageToolView::OnViewZoom3)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_ZOOM3, &CImageToolView::OnUpdateViewZoom3)
+	ON_COMMAND(ID_VIEW_ZOOM4, &CImageToolView::OnViewZoom4)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_ZOOM4, &CImageToolView::OnUpdateViewZoom4)
 END_MESSAGE_MAP()
 
 // CImageToolView 생성/소멸
 
 CImageToolView::CImageToolView() noexcept
+	:m_nZoom(1)
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 
@@ -62,22 +71,37 @@ void CImageToolView::OnDraw(CDC* pDC)
 		return;
 
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
-
+	
 	if (pDoc->m_Dib.IsValid())
-		pDoc->m_Dib.Draw(pDC->m_hDC);
+	{
+		int w = pDoc->m_Dib.GetWidth();
+		int h = pDoc->m_Dib.GetHeight();
+		pDoc->m_Dib.Draw(pDC->m_hDC,0,0,w*m_nZoom,h*m_nZoom);
+	}
 }
 
 void CImageToolView::OnInitialUpdate()
 {
 	CScrollView::OnInitialUpdate();
 
+	SetScrollSizeToFit();
+	
+}
+
+
+void CImageToolView::SetScrollSizeToFit(void)
+{
 	CSize sizeTotal;
-	// TODO: 이 뷰의 전체 크기를 계산합니다.
+
 	CImageToolDoc* pDoc = GetDocument();
-	if (pDoc->m_Dib.IsValid())
+	if (pDoc-> m_Dib.IsValid())
 	{
-		sizeTotal.cx = pDoc->m_Dib.GetWidth();
-		sizeTotal.cy = pDoc->m_Dib.GetHeight();
+		int w = pDoc->m_Dib.GetWidth();
+		int h = pDoc->m_Dib.GetHeight();
+
+		sizeTotal.cx = w * m_nZoom;
+		sizeTotal.cy = h * m_nZoom;
+
 	}
 	else
 	{
@@ -86,8 +110,10 @@ void CImageToolView::OnInitialUpdate()
 
 	SetScrollSizes(MM_TEXT, sizeTotal);
 
-	ResizeParentToFit(FALSE); // ResizeParentToFit() 가급적으로 TRUE 인자를 주는 것이 좋다. 인자를 주지 않는경우 기본적으로 TRUE로 지정
-							  // TRUE인 경우 불러온 영상의 크기가 차일드 프레임보다 작은 경우에만 프레임의 크기를 영상의 크기에 맞춘다.
+	ResizeParentToFit(TRUE);
+	//ResizeParentToFit(FALSE); 
+	// // ResizeParentToFit() 가급적으로 TRUE 인자를 주는 것이 좋다. 인자를 주지 않는경우 기본적으로 TRUE로 지정						  
+	// TRUE인 경우 불러온 영상의 크기가 차일드 프레임보다 작은 경우에만 프레임의 크기를 영상의 크기에 맞춘다.
 }
 
 
@@ -164,4 +190,68 @@ BOOL CImageToolView::OnEraseBkgnd(CDC* pDC)
 	FillOutsideRect(pDC, &br);
 
 	return TRUE;
+}
+
+
+void CImageToolView::OnViewZoom1()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_nZoom = 1;
+	SetScrollSizeToFit();
+	Invalidate(TRUE);
+}
+
+
+void CImageToolView::OnUpdateViewZoom1(CCmdUI* pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(m_nZoom == 1);
+}
+
+
+void CImageToolView::OnViewZoom2()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_nZoom = 2;
+	SetScrollSizeToFit();
+	Invalidate(TRUE);
+}
+
+
+void CImageToolView::OnUpdateViewZoom2(CCmdUI* pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(m_nZoom == 2);
+}
+
+
+void CImageToolView::OnViewZoom3()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_nZoom = 3;
+	SetScrollSizeToFit();
+	Invalidate(TRUE);
+}
+
+
+void CImageToolView::OnUpdateViewZoom3(CCmdUI* pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(m_nZoom == 3);
+}
+
+
+void CImageToolView::OnViewZoom4()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_nZoom = 4;
+	SetScrollSizeToFit();
+	Invalidate(TRUE);
+}
+
+
+void CImageToolView::OnUpdateViewZoom4(CCmdUI* pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(m_nZoom == 4);
 }

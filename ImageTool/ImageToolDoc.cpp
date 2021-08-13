@@ -8,10 +8,11 @@
 // 해당 프로젝트와 문서 코드를 공유하도록 해 줍니다.
 #ifndef SHARED_HANDLERS
 #include "ImageTool.h"
+
 #endif
 
 #include "ImageToolDoc.h"
-
+#include "CFileNewDlg.h"
 #include <propkey.h>
 
 #ifdef _DEBUG
@@ -23,6 +24,8 @@
 IMPLEMENT_DYNCREATE(CImageToolDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
+	ON_COMMAND(ID_WINDOW_DUPLICATE, &CImageToolDoc::OnWindowDuplicate)
+	ON_COMMAND(ID_EDIT_COPY, &CImageToolDoc::OnEditCopy)
 END_MESSAGE_MAP()
 
 
@@ -46,7 +49,31 @@ BOOL CImageToolDoc::OnNewDocument()
 	// TODO: 여기에 재초기화 코드를 추가합니다.
 	// SDI 문서는 이 문서를 다시 사용합니다.
 
-	return TRUE;
+
+	BOOL ret = TRUE;
+
+	if(theApp.m_pNewDib == NULL)
+	{ 
+	CFileNewDlg dlg;
+	if (dlg.DoModal() == IDOK)
+	{
+		if (dlg.m_nType == 0) // 그레이스케일 비트뱁
+			ret = m_Dib.CreateGrayBitmap(dlg.m_nWidth, dlg.m_nHeight);
+		else // 트루컬러 비트맵
+			ret = m_Dib.CreateRgbBitmap(dlg.m_nWidth, dlg.m_nHeight);
+	}
+	else
+	{
+		ret = FALSE;
+	}
+	}
+	else
+	{
+		m_Dib = *(theApp.m_pNewDib);
+		theApp.m_pNewDib = NULL;
+	}
+
+	return ret;
 }
 
 
@@ -154,4 +181,20 @@ BOOL CImageToolDoc::OnSaveDocument(LPCTSTR lpszPathName)
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 
 	return m_Dib.Save(CT2A(lpszPathName));
+}
+
+
+void CImageToolDoc::OnWindowDuplicate()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	if (m_Dib.IsValid())
+		m_Dib.CopyToClipboard();
+}
+
+
+void CImageToolDoc::OnEditCopy()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	if (m_Dib.IsValid())
+		m_Dib.CopyToClipboard();
 }

@@ -24,6 +24,7 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 protected:
 	virtual void OnInitialUpdate(); // 생성 후 처음 호출되었습니다.
+	void SetScrollSizeToFit(void);
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
@@ -46,6 +47,16 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	// 이미지 확대 배율
+	int m_nZoom;
+	afx_msg void OnViewZoom1();
+	afx_msg void OnUpdateViewZoom1(CCmdUI* pCmdUI);
+	afx_msg void OnViewZoom2();
+	afx_msg void OnUpdateViewZoom2(CCmdUI* pCmdUI);
+	afx_msg void OnViewZoom3();
+	afx_msg void OnUpdateViewZoom3(CCmdUI* pCmdUI);
+	afx_msg void OnViewZoom4();
+	afx_msg void OnUpdateViewZoom4(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // ImageToolView.cpp의 디버그 버전

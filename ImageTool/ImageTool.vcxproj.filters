@@ -51,16 +51,19 @@
     <ClInclude Include="IppImage\IppDib.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="IppImage\IppImage.h">
+    <ClInclude Include="IppImage\RGBBYTE.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="IppImage\RGBBYTE.h">
+    <ClInclude Include="CFileNewDlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="IppImage\IppImage.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="IppImage\stdafx.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="CFileNewDlg.h">
+    <ClInclude Include="IppImage\IppEnhance.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -92,10 +95,13 @@
     <ClCompile Include="IppImage\IppDib.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CFileNewDlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="IppImage\stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CFileNewDlg.cpp">
+    <ClCompile Include="IppImage\IppEnhance.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

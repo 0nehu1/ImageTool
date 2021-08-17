@@ -57,4 +57,6 @@ public:
 	afx_msg void OnBrightnessContrast();
 	afx_msg void OnGammaCorrection();
 	afx_msg void OnViewHistogram();
+	afx_msg void OnHistoStretching();
+	afx_msg void OnHistoEqualization();
 };

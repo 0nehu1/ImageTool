@@ -21,6 +21,7 @@
 #include "IppImage\IppEnhance.h"
 #include "CGammaCorrectionDlg.h"
 #include "CBrightnessContrastDlg.h"
+#include "CHistogramDlg.h"
 
 
 #ifdef _DEBUG
@@ -40,6 +41,7 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_UPDATE_COMMAND_UI(ID_IMAGE_INVERSE, &CImageToolDoc::OnUpdateImageInverse)
 	ON_COMMAND(ID_BRIGHTNESS_CONTRAST, &CImageToolDoc::OnBrightnessContrast)
 	ON_COMMAND(ID_GAMMA_CORRECTION, &CImageToolDoc::OnGammaCorrection)
+	ON_COMMAND(ID_VIEW_HISTOGRAM, &CImageToolDoc::OnViewHistogram)
 END_MESSAGE_MAP()
 
 
@@ -281,4 +283,13 @@ void CImageToolDoc::OnGammaCorrection()
 		AfxNewBitmap(dib);
 
 	}
+}
+
+
+void CImageToolDoc::OnViewHistogram()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CHistogramDlg dlg;
+	dlg.SetImage(&m_Dib);
+	dlg.DoModal();
 }

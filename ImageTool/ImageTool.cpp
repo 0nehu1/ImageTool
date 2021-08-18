@@ -34,7 +34,8 @@ END_MESSAGE_MAP()
 
 // CImageToolApp 생성
 
-CImageToolApp::CImageToolApp() noexcept
+CImageToolApp::CImageToolApp() 
+	:m_pNewDib(NULL), m_pImageDocTemplate(NULL)
 {
 	m_bHiColorIcons = TRUE;
 
@@ -115,14 +116,14 @@ BOOL CImageToolApp::InitInstance()
 
 	// 애플리케이션의 문서 템플릿을 등록합니다.  문서 템플릿은
 	//  문서, 프레임 창 및 뷰 사이의 연결 역할을 합니다.
-	CMultiDocTemplate* pDocTemplate;
-	pDocTemplate = new CMultiDocTemplate(IDR_ImageToolTYPE,
+	CMultiDocTemplate* pDocTemplete;
+	m_pImageDocTemplate = new CMultiDocTemplate(IDR_ImageToolTYPE,
 		RUNTIME_CLASS(CImageToolDoc),
 		RUNTIME_CLASS(CChildFrame), // 사용자 지정 MDI 자식 프레임입니다.
 		RUNTIME_CLASS(CImageToolView));
-	if (!pDocTemplate)
+	if (!m_pImageDocTemplate)
 		return FALSE;
-	AddDocTemplate(pDocTemplate);
+	AddDocTemplate(m_pImageDocTemplate);
 
 	// 주 MDI 프레임 창을 만듭니다.
 	CMainFrame* pMainFrame = new CMainFrame;

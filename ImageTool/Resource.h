@@ -72,13 +72,17 @@
 #define ID_HISTO_EQUALIZATION           32794
 #define ID_32795                        32795
 #define ID_ARITHMETIC_LOGICAL           32796
+#define ID_32797                        32797
+#define ID_BITPLANE_SLICING             32798
+#define ID_32799                        32799
+#define ID_WINDOW_CLOSEALL              32800
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        321
-#define _APS_NEXT_COMMAND_VALUE         32797
+#define _APS_NEXT_COMMAND_VALUE         32801
 #define _APS_NEXT_CONTROL_VALUE         1013
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

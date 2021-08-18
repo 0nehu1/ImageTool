@@ -42,6 +42,7 @@ public:
 	afx_msg void OnEditPaste();
 	afx_msg void OnUpdateEditPaste(CCmdUI* pCmdUI);
 	// afx_msg void OnWindowCloseall();
+	afx_msg void OnWindowCloseall();
 };
 
 extern CImageToolApp theApp;

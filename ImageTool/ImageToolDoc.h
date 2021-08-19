@@ -61,4 +61,10 @@ public:
 	afx_msg void OnHistoEqualization();
 	afx_msg void OnArithmeticLogical();
 	afx_msg void OnBitplaneSlicing();
+	afx_msg void OnFilterMean();
+	afx_msg void OnFilterWeightedMean();
+	afx_msg void OnFilterGaussian();
+	afx_msg void OnFilterLaplacian();
+	afx_msg void OnFilterUnsharpMask();
+	afx_msg void OnFilterHighboost();
 };

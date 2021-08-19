@@ -67,4 +67,5 @@ public:
 	afx_msg void OnFilterLaplacian();
 	afx_msg void OnFilterUnsharpMask();
 	afx_msg void OnFilterHighboost();
+	afx_msg void OnAddNoise();
 };

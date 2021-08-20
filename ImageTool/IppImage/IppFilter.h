@@ -10,4 +10,5 @@ void IppFilterUnsharpMask(IppByteImage& imgSrc, IppByteImage& imgDst);
 void IppFilterHighboost(IppByteImage& imgSrc, IppByteImage& imgDst, float alpha);
 void IppNoiseGaussian(IppByteImage& imgSrc, IppByteImage& imgDst, int amount);
 void IppNoiseSaltNPepper(IppByteImage& imgSrc, IppByteImage& imgDst, int amount);
-
+void IppFliterMedian(IppByteImage& imgSrc, IppByteImage& imgDst);
+void IppFilterDiffusion(IppByteImage& imgSrc, IppFloatImage& imgDst, float lambda, float k, int iter);

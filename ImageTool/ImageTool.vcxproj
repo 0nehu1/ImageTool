@@ -192,6 +192,9 @@
     <ClInclude Include="CGaussianDlg.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="CHistogramDlg.h" />
+    <ClInclude Include="CResizeDlg.h" />
+    <ClInclude Include="CRotateDlg.h" />
+    <ClInclude Include="CTranslateDlg.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="ImageTool.h" />
     <ClInclude Include="ImageToolDoc.h" />
@@ -200,6 +203,7 @@
     <ClInclude Include="IppImage\IppDib.h" />
     <ClInclude Include="IppImage\IppEnhance.h" />
     <ClInclude Include="IppImage\IppFilter.h" />
+    <ClInclude Include="IppImage\IppGeometry.h" />
     <ClInclude Include="IppImage\IppImage.h" />
     <ClInclude Include="IppImage\RGBBYTE.h" />
     <ClInclude Include="IppImage\stdafx.h" />
@@ -219,6 +223,9 @@
     <ClCompile Include="CGaussianDlg.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="CHistogramDlg.cpp" />
+    <ClCompile Include="CResizeDlg.cpp" />
+    <ClCompile Include="CRotateDlg.cpp" />
+    <ClCompile Include="CTranslateDlg.cpp" />
     <ClCompile Include="ImageTool.cpp" />
     <ClCompile Include="ImageToolDoc.cpp" />
     <ClCompile Include="ImageToolView.cpp" />
@@ -226,6 +233,7 @@
     <ClCompile Include="IppImage\IppDib.cpp" />
     <ClCompile Include="IppImage\IppEnhance.cpp" />
     <ClCompile Include="IppImage\IppFilter.cpp" />
+    <ClCompile Include="IppImage\IppGeometry.cpp" />
     <ClCompile Include="IppImage\stdafx.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputWnd.cpp" />

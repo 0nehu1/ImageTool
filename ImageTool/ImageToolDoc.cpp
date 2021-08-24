@@ -32,9 +32,10 @@
 #include "CArithmeticLogicalDlg.h"
 #include "CAddNoiseDlg.h"
 #include "CDiffusionDlg.h"
-
-
-
+#include "CTranslateDlg.h"
+#include "IppImage\IppGeometry.h"
+#include "CResizeDlg.h"
+#include "CRotateDlg.h"
 // CImageToolDoc
 
 IMPLEMENT_DYNCREATE(CImageToolDoc, CDocument)
@@ -60,6 +61,11 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_ADD_NOISE, &CImageToolDoc::OnAddNoise)
 	ON_COMMAND(ID_FILTER_MEDIAN, &CImageToolDoc::OnFilterMedian)
 	ON_COMMAND(ID_FILTER_DIFFUSION, &CImageToolDoc::OnFilterDiffusion)
+	ON_COMMAND(ID_IMAGE_TRANSLATION, &CImageToolDoc::OnImageTranslation)
+	ON_COMMAND(ID_IMAGE_RESIZE, &CImageToolDoc::OnImageResize)
+	ON_COMMAND(ID_IMAGE_ROTATE, &CImageToolDoc::OnImageRotate)
+	ON_COMMAND(ID_IMAGE_MIRROR, &CImageToolDoc::OnImageMirror)
+	ON_COMMAND(ID_IMAGE_FLIP, &CImageToolDoc::OnImageFlip)
 END_MESSAGE_MAP()
 
 
@@ -239,7 +245,7 @@ void CImageToolDoc::OnEditCopy()
 }
 
 
-#define CONVERT_DIB_TO_BYTEiMAGE(m_Dib, img)\
+#define CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)\
 IppByteImage img;\
 IppDibToImage(m_Dib,img);
 
@@ -251,7 +257,7 @@ void CImageToolDoc::OnImageInverse()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	
-	CONVERT_DIB_TO_BYTEiMAGE(m_Dib, img)
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 	IppInverse(img);
 	CONVERT_IMAGE_TO_DIB(img, dib)
 
@@ -274,7 +280,7 @@ void CImageToolDoc::OnBrightnessContrast()
 
 	if (dlg.DoModal() == IDOK)
 	{
-		CONVERT_DIB_TO_BYTEiMAGE(m_Dib, img)
+		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 		IppBrightness(img, dlg.m_nBrightness);
 		IppContrast(img, dlg.m_nContrast);
 		CONVERT_IMAGE_TO_DIB(img, dib)
@@ -293,7 +299,7 @@ void CImageToolDoc::OnGammaCorrection()
 	CGammaCorrectionDlg dlg;
 	if (dlg.DoModal() == IDOK)
 	{
-		CONVERT_DIB_TO_BYTEiMAGE(m_Dib, img)
+		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 			IppGammaCorrection(img, dlg.m_fGamma);
 		CONVERT_IMAGE_TO_DIB(img, dib)
 
@@ -316,7 +322,7 @@ void CImageToolDoc::OnViewHistogram()
 void CImageToolDoc::OnHistoStretching()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	CONVERT_DIB_TO_BYTEiMAGE(m_Dib, img)
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 		IppHistogramStretching(img);
 	CONVERT_IMAGE_TO_DIB(img, dib)
 
@@ -329,7 +335,7 @@ void CImageToolDoc::OnHistoStretching()
 void CImageToolDoc::OnHistoEqualization()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	CONVERT_DIB_TO_BYTEiMAGE(m_Dib, img)
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 		IppHistogramEqualization(img);
 	CONVERT_IMAGE_TO_DIB(img, dib)
 
@@ -348,8 +354,8 @@ void CImageToolDoc::OnArithmeticLogical()
 		CImageToolDoc* pDoc1 = (CImageToolDoc*)dlg.m_pDoc1;
 		CImageToolDoc* pDoc2 = (CImageToolDoc*)dlg.m_pDoc2;
 
-		CONVERT_DIB_TO_BYTEiMAGE(pDoc1->m_Dib, img1)
-			CONVERT_DIB_TO_BYTEiMAGE(pDoc2->m_Dib, img2)
+		CONVERT_DIB_TO_BYTEIMAGE(pDoc1->m_Dib, img1)
+			CONVERT_DIB_TO_BYTEIMAGE(pDoc2->m_Dib, img2)
 			IppByteImage img3;
 
 		bool ret = false;
@@ -382,7 +388,7 @@ void CImageToolDoc::OnArithmeticLogical()
 void CImageToolDoc::OnBitplaneSlicing()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	CONVERT_DIB_TO_BYTEiMAGE(m_Dib, img)
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 		IppByteImage imgPlane;
 
 	for (int i = 0; i < 8; i++)
@@ -400,7 +406,7 @@ void CImageToolDoc::OnFilterMean()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 
-	CONVERT_DIB_TO_BYTEiMAGE(m_Dib, imgSrc)
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 	IppByteImage imgDst;
 	IppFilterMean(imgSrc, imgDst);
 	CONVERT_IMAGE_TO_DIB(imgDst, dib)
@@ -414,7 +420,7 @@ void CImageToolDoc::OnFilterWeightedMean()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 
-	CONVERT_DIB_TO_BYTEiMAGE(m_Dib, imgSrc)
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 	IppByteImage imgDst;
 	IppFilterWeightedMean(imgSrc, imgDst);
 	CONVERT_IMAGE_TO_DIB(imgDst, dib)
@@ -431,7 +437,7 @@ void CImageToolDoc::OnFilterGaussian()
 	CGaussianDlg dlg;
 	if (dlg.DoModal() == IDOK)
 	{
-		CONVERT_DIB_TO_BYTEiMAGE(m_Dib, imgSrc)
+		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 		IppFloatImage imgDst;
 		IppFilterGaussian(imgSrc, imgDst, dlg.m_fSigma);
 		CONVERT_IMAGE_TO_DIB(imgDst, dib)
@@ -445,7 +451,7 @@ void CImageToolDoc::OnFilterGaussian()
 void CImageToolDoc::OnFilterLaplacian()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	CONVERT_DIB_TO_BYTEiMAGE(m_Dib, imgSrc)
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 	IppByteImage imgDst;
 	IppFilterLaplacian(imgSrc, imgDst);
 	CONVERT_IMAGE_TO_DIB(imgDst, dib);
@@ -458,7 +464,7 @@ void CImageToolDoc::OnFilterLaplacian()
 void CImageToolDoc::OnFilterUnsharpMask()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	CONVERT_DIB_TO_BYTEiMAGE(m_Dib, imgSrc)
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 	IppByteImage imgDst;
 	IppFilterUnsharpMask(imgSrc, imgDst);
 	CONVERT_IMAGE_TO_DIB(imgDst, dib);
@@ -471,7 +477,7 @@ void CImageToolDoc::OnFilterUnsharpMask()
 void CImageToolDoc::OnFilterHighboost()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	CONVERT_DIB_TO_BYTEiMAGE(m_Dib, imgSrc)
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 	IppByteImage imgDst;
 	float alpha = 1.2f;
 	IppFilterHighboost(imgSrc, imgDst,alpha);
@@ -488,7 +494,7 @@ void CImageToolDoc::OnAddNoise()
 	CAddNoiseDlg dlg;
 	if (dlg.DoModal() == IDOK)
 	{
-		CONVERT_DIB_TO_BYTEiMAGE(m_Dib, imgSrc)
+		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 		IppByteImage imgDst;
 		
 		if (dlg.m_nNoiseType == 0)
@@ -509,7 +515,7 @@ void CImageToolDoc::OnAddNoise()
 void CImageToolDoc::OnFilterMedian()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	CONVERT_DIB_TO_BYTEiMAGE(m_Dib, imgSrc)
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 		IppByteImage imgDst;
 	IppFliterMedian(imgSrc, imgDst);
 	CONVERT_IMAGE_TO_DIB(imgDst, dib);
@@ -525,7 +531,7 @@ void CImageToolDoc::OnFilterDiffusion()
 	CDiffusionDlg dlg;
 	if (dlg.DoModal() == IDOK)
 	{
-		CONVERT_DIB_TO_BYTEiMAGE(m_Dib, imgSrc)
+		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 			IppFloatImage imgDst;
 		IppFilterDiffusion(imgSrc, imgDst, dlg.m_fLambda,dlg.m_fK,dlg.m_nIteration);
 		CONVERT_IMAGE_TO_DIB(imgDst, dib);
@@ -534,4 +540,105 @@ void CImageToolDoc::OnFilterDiffusion()
 			GetTitle(),dlg.m_fLambda,dlg.m_fK, dlg.m_nIteration);
 		AfxNewBitmap(dib);
 	}
+}
+
+
+void CImageToolDoc::OnImageTranslation()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CTranslateDlg dlg;
+	if (dlg.DoModal() == IDOK)
+	{
+		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
+			IppByteImage imgDst;
+		IppTranslate(imgSrc, imgDst, dlg.m_nNewSX, dlg.m_nNEWSY);
+		CONVERT_IMAGE_TO_DIB(imgDst, dib);
+
+		AfxPrintInfo(_T("[이동 변환] 입력 영상: %s   , 가로 이동: %d, 세로 이동: %d"),
+			GetTitle(), dlg.m_nNewSX, dlg.m_nNEWSY);
+		AfxNewBitmap(dib);
+	}
+}
+
+
+void CImageToolDoc::OnImageResize()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CResizeDlg dlg;
+	dlg.m_nOldWidth = m_Dib.GetWidth();
+	dlg.m_nOldHeight = m_Dib.GetHeight();
+	if (dlg.DoModal() == IDOK)
+	{
+		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
+			IppByteImage imgDst;
+		switch (dlg.m_nInterpolation)
+		{
+		case 0: IppResizeNearest(imgSrc, imgDst, dlg.m_nNewWidth, dlg.m_nNewHeight); break;
+		case 1: IppResizeBilinear(imgSrc, imgDst, dlg.m_nNewWidth, dlg.m_nNewHeight); break;
+		case 2: IppResizeCubic(imgSrc, imgDst, dlg.m_nNewWidth, dlg.m_nNewHeight); break;
+
+		}
+		CONVERT_IMAGE_TO_DIB(imgDst, dib)
+
+			TCHAR* interpolation[] = { _T("최근방 이웃 보간법"), _T("양선형 보간법"), _T("3자 회선 보간법") };
+		AfxPrintInfo(_T("[크기 변환] 입력 영상: %s, , 새 가로 크기: %d, 새 세로 크기: %d, 보간법: %s"),
+			GetTitle(), dlg.m_nNewWidth, dlg.m_nNewHeight, interpolation[dlg.m_nInterpolation]);
+		AfxNewBitmap(dib);
+	}
+}
+
+
+void CImageToolDoc::OnImageRotate()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CRotateDlg dlg;
+	if(dlg.DoModal() ==IDOK)
+	{
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
+		IppByteImage imgDst;
+	switch (dlg.m_nRotate)
+	{
+	case 0: IppRotate90(imgSrc, imgDst); break;
+	case 1: IppRotate180(imgSrc, imgDst); break;
+	case 2: IppRotate270(imgSrc, imgDst); break;
+	case 3: IppRotate(imgSrc, imgDst, (double)dlg.m_fAngle); break;
+	}
+
+	CONVERT_IMAGE_TO_DIB(imgDst, dib)
+
+		TCHAR* rotate[] = { _T("90도"),_T("180도") ,_T("270도") };
+	if (dlg.m_nRotate != 3)
+		AfxPrintInfo(_T("[회전 변환] 입력 영상: %s, 회전 각도: %s"), GetTitle(),
+			rotate[dlg.m_nRotate]);
+	else
+		AfxPrintInfo(_T("[회전 변환] 입력 영상: %s, 회전 각도: %4.2f"), GetTitle(),
+			dlg.m_fAngle);
+	AfxNewBitmap(dib);
+	}
+}
+
+
+void CImageToolDoc::OnImageMirror()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
+	IppByteImage imgDst;
+	IppMirror(imgSrc, imgDst);
+	CONVERT_IMAGE_TO_DIB(imgDst, dib);
+
+	AfxPrintInfo(_T("[좌우 대칭] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dib);
+}
+
+
+void CImageToolDoc::OnImageFlip()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
+	IppByteImage imgDst;
+	IppFlip(imgSrc, imgDst);
+	CONVERT_IMAGE_TO_DIB(imgDst, dib)
+
+		AfxPrintInfo(_T("[상하 대칭] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dib);
 }

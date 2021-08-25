@@ -75,4 +75,6 @@ public:
 	afx_msg void OnImageRotate();
 	afx_msg void OnImageMirror();
 	afx_msg void OnImageFlip();
+	afx_msg void OnFourierDft();
+	afx_msg void OnFourierDftrc();
 };

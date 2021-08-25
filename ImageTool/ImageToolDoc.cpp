@@ -36,7 +36,12 @@
 #include "IppImage\IppGeometry.h"
 #include "CResizeDlg.h"
 #include "CRotateDlg.h"
+#include "IppImage\IppFourier.h"
 // CImageToolDoc
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
+
+#define SHOW_SPECTRUM_PHASE_IMAGE
 
 IMPLEMENT_DYNCREATE(CImageToolDoc, CDocument)
 
@@ -66,6 +71,8 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_IMAGE_ROTATE, &CImageToolDoc::OnImageRotate)
 	ON_COMMAND(ID_IMAGE_MIRROR, &CImageToolDoc::OnImageMirror)
 	ON_COMMAND(ID_IMAGE_FLIP, &CImageToolDoc::OnImageFlip)
+	ON_COMMAND(ID_FOURIER_DFT, &CImageToolDoc::OnFourierDft)
+	ON_COMMAND(ID_FOURIER_DFTRC, &CImageToolDoc::OnFourierDftrc)
 END_MESSAGE_MAP()
 
 
@@ -643,3 +650,103 @@ void CImageToolDoc::OnImageFlip()
 	AfxNewBitmap(dib);
 }
 
+
+
+void CImageToolDoc::OnFourierDft()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	int w = m_Dib.GetWidth();
+	int h = m_Dib.GetHeight();
+
+	if (w * h > 128 * 128)
+	{
+		CString msg = _T("영상의 크기가 커서 시간이 오래 걸릴 수 있습니다. \n계속 하시겠습니까?");
+		if (AfxMessageBox(msg, MB_OKCANCEL) != IDOK)
+			return;
+	}
+
+	CWaitCursor wait;
+
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img);
+	
+	IppFourier fourier;
+	fourier.SetImage(img);
+
+	DWORD t1 = timeGetTime();
+	fourier.DFT(1);
+
+#ifdef SHOW_SPECTRUM_PHASE_IMAGE
+	IppByteImage imgSpec;
+	fourier.GetSpectrumImage(imgSpec);
+
+	CONVERT_IMAGE_TO_DIB(imgSpec, dibSpec)
+		AfxNewBitmap(dibSpec);
+
+	IppByteImage imgPhase;
+	fourier.GetPhaseImage(imgPhase);
+
+	CONVERT_IMAGE_TO_DIB(imgPhase, dibPhase)
+		AfxNewBitmap(dibPhase);
+#endif
+	
+	fourier.DFT(-1);
+	DWORD t2 = timeGetTime();
+
+	IppByteImage img2;
+	fourier.GetImage(img2);
+
+	CONVERT_IMAGE_TO_DIB(img2, dib)
+		AfxPrintInfo(_T("[푸리에변환/DFT] 입력 영상: %s, 처리 시간: %dmsec"), GetTitle(), t2 - t1);
+	AfxNewBitmap(dib);
+
+}
+
+
+void CImageToolDoc::OnFourierDftrc()
+{
+	int w = m_Dib.GetWidth();
+	int h = m_Dib.GetHeight();
+
+	if (w * h > 256 * 256)
+	{
+		CString msg = _T("영상의 크기가 커서 시간이 오래 걸릴 수 있습니다.\n계속 하시겠습니까?");
+		if (AfxMessageBox(msg, MB_OKCANCEL) != IDOK)
+			return;
+	}
+
+	CWaitCursor wait;
+
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
+
+		IppFourier fourier;
+	fourier.SetImage(img);
+
+	DWORD t1 = timeGetTime();
+	fourier.DFTRC(1);
+
+#ifdef SHOW_SPECTRUM_PHASE_IMAGE
+	IppByteImage imgSpec;
+	fourier.GetSpectrumImage(imgSpec);
+
+	CONVERT_IMAGE_TO_DIB(imgSpec, dibSpec)
+		AfxNewBitmap(dibSpec);
+
+	IppByteImage imgPhase;
+	fourier.GetPhaseImage(imgPhase);
+
+	CONVERT_IMAGE_TO_DIB(imgPhase, dibPhase)
+		AfxNewBitmap(dibPhase);
+#endif
+
+	fourier.DFTRC(-1);
+	DWORD t2 = timeGetTime();
+
+	IppByteImage img2;
+	fourier.GetImage(img2);
+
+	CONVERT_IMAGE_TO_DIB(img2, dib)
+
+		AfxPrintInfo(_T("[푸리에변환/DFTRC] 입력 영상: %s, 입력 영상 크기: %dx%d, 처리 시간: %dmsec"),
+			GetTitle(), w, h, t2 - t1);
+	AfxNewBitmap(dib);
+}

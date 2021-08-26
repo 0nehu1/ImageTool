@@ -77,4 +77,6 @@ public:
 	afx_msg void OnImageFlip();
 	afx_msg void OnFourierDft();
 	afx_msg void OnFourierDftrc();
+	afx_msg void OnFourierFft();
+	afx_msg void OnFreqFiltering();
 };

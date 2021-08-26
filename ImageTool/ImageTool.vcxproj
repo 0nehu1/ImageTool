@@ -188,6 +188,7 @@
     <ClInclude Include="CBrightnessContrastDlg.h" />
     <ClInclude Include="CDiffusionDlg.h" />
     <ClInclude Include="CFileNewDlg.h" />
+    <ClInclude Include="CFreqFilteringDlg.h" />
     <ClInclude Include="CGammaCorrectionDlg.h" />
     <ClInclude Include="CGaussianDlg.h" />
     <ClInclude Include="ChildFrm.h" />
@@ -220,6 +221,7 @@
     <ClCompile Include="CBrightnessContrastDlg.cpp" />
     <ClCompile Include="CDiffusionDlg.cpp" />
     <ClCompile Include="CFileNewDlg.cpp" />
+    <ClCompile Include="CFreqFilteringDlg.cpp" />
     <ClCompile Include="CGammaCorrectionDlg.cpp" />
     <ClCompile Include="CGaussianDlg.cpp" />
     <ClCompile Include="ChildFrm.cpp" />

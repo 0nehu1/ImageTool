@@ -38,6 +38,7 @@
 #define IDD_ROTATE                      332
 #define IDD_FREQUENCY_FILTERING         334
 #define IDD_CANNY_EDGE                  337
+#define IDD_HARRIS_CORNER               339
 #define IDC_IMAGE_TYPE                  1000
 #define IDC_WIDTH                       1001
 #define IDC_HEIGHT                      1002
@@ -86,6 +87,7 @@
 #define IDC_CANNY_SIGMA                 1046
 #define IDC_LOW_THRESHOLD               1047
 #define IDC_HIGH_THRESHOLD              1048
+#define IDC_HARRIS_THRESHOLD            1048
 #define ID_32771                        32771
 #define ID_WINDOW_DUPLICATE             32772
 #define ID_32773                        32773
@@ -166,14 +168,16 @@
 #define ID_EDGE_CANNY                   32857
 #define ID_32858                        32858
 #define ID_HOUGH_LINE                   32859
+#define ID_32860                        32860
+#define ID_HARRIS_CORNER                32861
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        339
-#define _APS_NEXT_COMMAND_VALUE         32860
-#define _APS_NEXT_CONTROL_VALUE         1047
+#define _APS_NEXT_RESOURCE_VALUE        341
+#define _APS_NEXT_COMMAND_VALUE         32862
+#define _APS_NEXT_CONTROL_VALUE         1049
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

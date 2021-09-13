@@ -186,6 +186,7 @@
     <ClInclude Include="CAddNoiseDlg.h" />
     <ClInclude Include="CArithmeticLogicalDlg.h" />
     <ClInclude Include="CBrightnessContrastDlg.h" />
+    <ClInclude Include="CCannyEdgeDlg.h" />
     <ClInclude Include="CDiffusionDlg.h" />
     <ClInclude Include="CFileNewDlg.h" />
     <ClInclude Include="CFreqFilteringDlg.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="IppImage\IppConvert.h" />
     <ClInclude Include="IppImage\IppDib.h" />
     <ClInclude Include="IppImage\IppEnhance.h" />
+    <ClInclude Include="IppImage\IppFeature.h" />
     <ClInclude Include="IppImage\IppFilter.h" />
     <ClInclude Include="IppImage\IppFourier.h" />
     <ClInclude Include="IppImage\IppGeometry.h" />
@@ -219,6 +221,7 @@
     <ClCompile Include="CAddNoiseDlg.cpp" />
     <ClCompile Include="CArithmeticLogicalDlg.cpp" />
     <ClCompile Include="CBrightnessContrastDlg.cpp" />
+    <ClCompile Include="CCannyEdgeDlg.cpp" />
     <ClCompile Include="CDiffusionDlg.cpp" />
     <ClCompile Include="CFileNewDlg.cpp" />
     <ClCompile Include="CFreqFilteringDlg.cpp" />
@@ -235,6 +238,7 @@
     <ClCompile Include="IppImage\IppConvert.cpp" />
     <ClCompile Include="IppImage\IppDib.cpp" />
     <ClCompile Include="IppImage\IppEnhance.cpp" />
+    <ClCompile Include="IppImage\IppFeature.cpp" />
     <ClCompile Include="IppImage\IppFilter.cpp" />
     <ClCompile Include="IppImage\IppFourier.cpp" />
     <ClCompile Include="IppImage\IppGeometry.cpp" />

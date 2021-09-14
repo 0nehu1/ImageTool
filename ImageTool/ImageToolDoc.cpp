@@ -46,6 +46,11 @@
 #include "CFreqFilteringDlg.h"
 #pragma comment(lib, "winmm.lib")
 
+#include"IppImage\IppColor.h"
+
+#define CONVERT_DIB_TO_RGBIMAGE(m_Dib,img)\
+	IppRgbImage img;\
+	IppDibToImage(m_Dib,img);
 #define SHOW_SPECTRUM_PHASE_IMAGE
 
 IMPLEMENT_DYNCREATE(CImageToolDoc, CDocument)
@@ -86,6 +91,8 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_EDGE_CANNY, &CImageToolDoc::OnEdgeCanny)
 	ON_COMMAND(ID_HOUGH_LINE, &CImageToolDoc::OnHoughLine)
 	ON_COMMAND(ID_HARRIS_CORNER, &CImageToolDoc::OnHarrisCorner)
+	ON_COMMAND(ID_COLOR_GRAYSCALE, &CImageToolDoc::OnColorGrayscale)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_GRAYSCALE, &CImageToolDoc::OnUpdateColorGrayscale)
 END_MESSAGE_MAP()
 
 
@@ -276,20 +283,32 @@ IppImageToDib(img,dib);
 void CImageToolDoc::OnImageInverse()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	
+	if(m_Dib.GetBitCount()==8)
+	{
 	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 	IppInverse(img);
 	CONVERT_IMAGE_TO_DIB(img, dib)
-
+		 
 	AfxPrintInfo(_T("[반전] 입력 영상: %s"), GetTitle());
 	AfxNewBitmap(dib);
+	}
+	else if (m_Dib.GetBitCount() == 24)
+	{
+		CONVERT_DIB_TO_RGBIMAGE(m_Dib, img)
+		IppInverse(img);
+		CONVERT_IMAGE_TO_DIB(img, dib)
+
+		AfxPrintInfo(_T("[반전] 입력 영상: %s"), GetTitle());
+		AfxNewBitmap(dib);
+	}
+
 }
 
 
 void CImageToolDoc::OnUpdateImageInverse(CCmdUI* pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
-	pCmdUI->Enable(m_Dib.GetBitCount() == 8);
+	pCmdUI->Enable(m_Dib.GetBitCount() == 8 || m_Dib.GetBitCount() == 24);
 }
 
 
@@ -986,4 +1005,25 @@ void CImageToolDoc::OnHarrisCorner()
 				GetTitle(), dlg.m_nHarrisTh, corners.size());
 		AfxNewBitmap(dib);
 	}
+}
+
+
+void CImageToolDoc::OnColorGrayscale()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
+	IppByteImage imgGray;
+	imgGray.Convert(imgColor);
+	CONVERT_IMAGE_TO_DIB(imgGray, dib)
+
+		AfxPrintInfo(_T("[그레이스케일 변환] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dib);
+
+}
+
+
+void CImageToolDoc::OnUpdateColorGrayscale(CCmdUI* pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->Enable(m_Dib.GetBitCount() == 24);
 }

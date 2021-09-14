@@ -484,7 +484,7 @@ void IppHarrisCorner(IppByteImage& img, std::vector<IppPoint>& corners, double t
 	//-------------------------------------------------------------------------
 	// 4. 임계값보다 큰 국지적 최대값을 찾아 코너 포인트로 결정
 	//-------------------------------------------------------------------------
-
+	
 	corners.clear();
 	float cvf_value;
 	for (j = 2; j < h - 2; j++)
@@ -499,6 +499,7 @@ void IppHarrisCorner(IppByteImage& img, std::vector<IppPoint>& corners, double t
 					cvf_value > crf[j][i - 1] && cvf_value > crf[j - 1][i - 1])
 				{
 					corners.push_back(IppPoint(i, j));
+					// Rectangle(img, i - 100, j - 100, i + 100, j + 100);
 				}
 			}
 		}

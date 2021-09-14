@@ -997,11 +997,16 @@ void CImageToolDoc::OnHarrisCorner()
 		{
 			x = cp.x;
 			y = cp.y;
-
-			ptr[y - 1][x - 1] = ptr[y - 1][x] = ptr[y - 1][x + 1] = 255;
-			ptr[y][x - 1] = ptr[y][x] = ptr[y][x + 1] = 255;
-			ptr[y + 1][x - 1] = ptr[y + 1][x] = ptr[y + 1][x + 1] = 255;
 			
+			//ptr[y - 1][x - 1] = ptr[y - 1][x] = ptr[y - 1][x + 1] = 255;
+			//ptr[y][x - 1] = ptr[y][x] = ptr[y][x + 1] = 255;
+			//ptr[y + 1][x - 1] = ptr[y + 1][x] = ptr[y + 1][x + 1] = 255;
+			
+			ptr[y - 2][x - 2] = 255;
+			ptr[y + 2][x - 2] = 255;
+			ptr[y - 2][x + 2] = 255;
+			ptr[y + 2][x + 2] = 255;
+
 			//Rectangle(h_dc,x - 10, y - 10, x + 10, y + 10);
 			//Rectangle(x - 10 y - 10, x + 10, y + 10);
 			//(x - 10, y - 10, x + 10, y + 10, RGB(255, 0, 0));

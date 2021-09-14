@@ -499,7 +499,7 @@ void IppHarrisCorner(IppByteImage& img, std::vector<IppPoint>& corners, double t
 					cvf_value > crf[j][i - 1] && cvf_value > crf[j - 1][i - 1])
 				{
 					corners.push_back(IppPoint(i, j));
-					// Rectangle(img, i - 100, j - 100, i + 100, j + 100);
+					//Rectangle(corners, i - 100, j - 100, i + 100, j + 100);
 				}
 			}
 		}

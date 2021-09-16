@@ -93,6 +93,8 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_HARRIS_CORNER, &CImageToolDoc::OnHarrisCorner)
 	ON_COMMAND(ID_COLOR_GRAYSCALE, &CImageToolDoc::OnColorGrayscale)
 	ON_UPDATE_COMMAND_UI(ID_COLOR_GRAYSCALE, &CImageToolDoc::OnUpdateColorGrayscale)
+	ON_COMMAND(ID_TEST, &CImageToolDoc::OnTest)
+	ON_COMMAND(ID_TEST_2, &CImageToolDoc::OnTest2)
 END_MESSAGE_MAP()
 
 
@@ -1039,4 +1041,265 @@ void CImageToolDoc::OnUpdateColorGrayscale(CCmdUI* pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->Enable(m_Dib.GetBitCount() == 24);
+}
+
+
+void CImageToolDoc::OnTest()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+		if (m_Dib.GetBitCount() == 24)
+		{
+			CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
+				IppByteImage imgGray;
+			imgGray.Convert(imgColor);
+			CONVERT_IMAGE_TO_DIB(imgGray, dib)
+
+				AfxPrintInfo(_T("[그레이스케일 변환] 입력 영상: %s "), GetTitle());
+			AfxNewBitmap(dib);
+
+			if (dib.GetBitCount() == 8)
+			{
+				CHarrisCornerDlg dlg;
+
+				HDC h_dc = ::GetDC(NULL);
+				if (dlg.DoModal() == IDOK)
+				{
+					CONVERT_DIB_TO_BYTEIMAGE(dib, img)
+						std::vector<IppPoint> corners;
+					IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
+
+					BYTE** ptr = img.GetPixels2D();
+
+					//RECT rect;
+
+					int x, y;
+					for (IppPoint cp : corners)
+					{
+						x = cp.x;
+						y = cp.y;
+
+						//ptr[y - 1][x - 1] = ptr[y - 1][x] = ptr[y - 1][x + 1] = 255;
+						//ptr[y][x - 1] = ptr[y][x] = ptr[y][x + 1] = 255;
+						//ptr[y + 1][x - 1] = ptr[y + 1][x] = ptr[y + 1][x + 1] = 255;
+
+						ptr[y - 2][x - 2] = 255;
+						ptr[y + 2][x - 2] = 255;
+						ptr[y - 2][x + 2] = 255;
+						ptr[y + 2][x + 2] = 255;
+
+						//Rectangle(h_dc,x - 10, y - 10, x + 10, y + 10);
+						//Rectangle(x - 10 y - 10, x + 10, y + 10);
+						//(x - 10, y - 10, x + 10, y + 10, RGB(255, 0, 0));
+					}
+					{
+						CONVERT_IMAGE_TO_DIB(img, dib)
+
+							AfxPrintInfo(_T("[해리스 코너 검출] 입력 영상: %s, Threshold: %d, 검출된 코너 갯수: %d"),
+								GetTitle(), dlg.m_nHarrisTh, corners.size());
+						AfxNewBitmap(dib);
+					}
+				}
+			}
+		}
+	
+		else if (m_Dib.GetBitCount() == 8)
+		{
+			CHarrisCornerDlg dlg;
+
+			HDC h_dc = ::GetDC(NULL);
+			if (dlg.DoModal() == IDOK)
+			{
+				CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
+					std::vector<IppPoint> corners;
+				IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
+
+				BYTE** ptr = img.GetPixels2D();
+
+				//RECT rect;
+
+				int x, y;
+				for (IppPoint cp : corners)
+				{
+					x = cp.x;
+					y = cp.y;
+
+					//ptr[y - 1][x - 1] = ptr[y - 1][x] = ptr[y - 1][x + 1] = 255;
+					//ptr[y][x - 1] = ptr[y][x] = ptr[y][x + 1] = 255;
+					//ptr[y + 1][x - 1] = ptr[y + 1][x] = ptr[y + 1][x + 1] = 255;
+
+					ptr[y - 2][x - 2] = 255;
+					ptr[y + 2][x - 2] = 255;
+					ptr[y - 2][x + 2] = 255;
+					ptr[y + 2][x + 2] = 255;
+
+					//Rectangle(h_dc,x - 10, y - 10, x + 10, y + 10);
+					//Rectangle(x - 10 y - 10, x + 10, y + 10);
+					//(x - 10, y - 10, x + 10, y + 10, RGB(255, 0, 0));
+				}
+				{
+					CONVERT_IMAGE_TO_DIB(img, dib)
+
+						AfxPrintInfo(_T("[해리스 코너 검출] 입력 영상: %s, Threshold: %d, 검출된 코너 갯수: %d"),
+							GetTitle(), dlg.m_nHarrisTh, corners.size());
+					AfxNewBitmap(dib);
+				}
+			}
+		}
+}
+
+
+void CImageToolDoc::OnTest2()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	if (m_Dib.GetBitCount() == 24)
+	{
+		CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
+			IppByteImage imgGray;
+		imgGray.Convert(imgColor);
+		CONVERT_IMAGE_TO_DIB(imgGray, dib)
+
+			AfxPrintInfo(_T("[그레이스케일 변환] 입력 영상: %s "), GetTitle());
+		AfxNewBitmap(dib);
+
+
+		if (dib.GetBitCount() == 8)
+		{
+
+			CResizeDlg dlg1;
+			dlg1.m_nOldWidth = dib.GetWidth();
+			dlg1.m_nOldHeight = dib.GetHeight();
+			if (dlg1.DoModal() == IDOK)
+			{
+				CONVERT_DIB_TO_BYTEIMAGE(dib, imgSrc)
+					IppByteImage imgDst;
+				switch (dlg1.m_nInterpolation)
+				{
+				case 0: IppResizeNearest(imgSrc, imgDst, dlg1.m_nNewWidth, dlg1.m_nNewHeight); break;
+				case 1: IppResizeBilinear(imgSrc, imgDst, dlg1.m_nNewWidth, dlg1.m_nNewHeight); break;
+				case 2: IppResizeCubic(imgSrc, imgDst, dlg1.m_nNewWidth, dlg1.m_nNewHeight); break;
+
+				}
+				CONVERT_IMAGE_TO_DIB(imgDst, dib)
+
+					TCHAR* interpolation[] = { _T("최근방 이웃 보간법"), _T("양선형 보간법"), _T("3자 회선 보간법") };
+				AfxPrintInfo(_T("[크기 변환] 입력 영상: %s, , 새 가로 크기: %d, 새 세로 크기: %d, 보간법: %s"),
+					GetTitle(), dlg1.m_nNewWidth, dlg1.m_nNewHeight, interpolation[dlg1.m_nInterpolation]);
+				AfxNewBitmap(dib);
+			
+				CHarrisCornerDlg dlg;
+				HDC h_dc = ::GetDC(NULL);
+				if (dlg.DoModal() == IDOK)
+				{
+					CONVERT_DIB_TO_BYTEIMAGE(dib, img)
+						std::vector<IppPoint> corners;
+					IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
+
+					BYTE** ptr = img.GetPixels2D();
+
+					//RECT rect;
+
+					int x, y;
+					for (IppPoint cp : corners)
+					{
+						x = cp.x;
+						y = cp.y;
+
+						//ptr[y - 1][x - 1] = ptr[y - 1][x] = ptr[y - 1][x + 1] = 255;
+						//ptr[y][x - 1] = ptr[y][x] = ptr[y][x + 1] = 255;
+						//ptr[y + 1][x - 1] = ptr[y + 1][x] = ptr[y + 1][x + 1] = 255;
+
+						ptr[y - 2][x - 2] = 255;
+						ptr[y + 2][x - 2] = 255;
+						ptr[y - 2][x + 2] = 255;
+						ptr[y + 2][x + 2] = 255;
+
+						//Rectangle(h_dc,x - 10, y - 10, x + 10, y + 10);
+						//Rectangle(x - 10 y - 10, x + 10, y + 10);
+						//(x - 10, y - 10, x + 10, y + 10, RGB(255, 0, 0));
+					}
+					{
+						CONVERT_IMAGE_TO_DIB(img, dib)
+
+							AfxPrintInfo(_T("[해리스 코너 검출] 입력 영상: %s, Threshold: %d, 검출된 코너 갯수: %d"),
+								GetTitle(), dlg.m_nHarrisTh, corners.size());
+						AfxNewBitmap(dib);
+					}
+				}
+			
+			}
+		
+
+			
+		}
+	}
+
+	else if (m_Dib.GetBitCount() == 8)
+	{
+
+		CResizeDlg dlg1;
+		dlg1.m_nOldWidth = m_Dib.GetWidth();
+		dlg1.m_nOldHeight = m_Dib.GetHeight();
+		if (dlg1.DoModal() == IDOK)
+		{
+			CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
+				IppByteImage imgDst;
+			switch (dlg1.m_nInterpolation)
+			{
+			case 0: IppResizeNearest(imgSrc, imgDst, dlg1.m_nNewWidth, dlg1.m_nNewHeight); break;
+			case 1: IppResizeBilinear(imgSrc, imgDst, dlg1.m_nNewWidth, dlg1.m_nNewHeight); break;
+			case 2: IppResizeCubic(imgSrc, imgDst, dlg1.m_nNewWidth, dlg1.m_nNewHeight); break;
+
+			}
+			CONVERT_IMAGE_TO_DIB(imgDst, dib)
+
+				TCHAR* interpolation[] = { _T("최근방 이웃 보간법"), _T("양선형 보간법"), _T("3자 회선 보간법") };
+			AfxPrintInfo(_T("[크기 변환] 입력 영상: %s, , 새 가로 크기: %d, 새 세로 크기: %d, 보간법: %s"),
+				GetTitle(), dlg1.m_nNewWidth, dlg1.m_nNewHeight, interpolation[dlg1.m_nInterpolation]);
+			AfxNewBitmap(dib);
+
+			CHarrisCornerDlg dlg;
+
+			HDC h_dc = ::GetDC(NULL);
+			if (dlg.DoModal() == IDOK)
+			{
+				CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
+					std::vector<IppPoint> corners;
+				IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
+
+				BYTE** ptr = img.GetPixels2D();
+
+				//RECT rect;
+
+				int x, y;
+				for (IppPoint cp : corners)
+				{
+					x = cp.x;
+					y = cp.y;
+
+					//ptr[y - 1][x - 1] = ptr[y - 1][x] = ptr[y - 1][x + 1] = 255;
+					//ptr[y][x - 1] = ptr[y][x] = ptr[y][x + 1] = 255;
+					//ptr[y + 1][x - 1] = ptr[y + 1][x] = ptr[y + 1][x + 1] = 255;
+
+					ptr[y - 2][x - 2] = 255;
+					ptr[y + 2][x - 2] = 255;
+					ptr[y - 2][x + 2] = 255;
+					ptr[y + 2][x + 2] = 255;
+
+					//Rectangle(h_dc,x - 10, y - 10, x + 10, y + 10);
+					//Rectangle(x - 10 y - 10, x + 10, y + 10);
+					//(x - 10, y - 10, x + 10, y + 10, RGB(255, 0, 0));
+				}
+				{
+					CONVERT_IMAGE_TO_DIB(img, dib)
+
+						AfxPrintInfo(_T("[해리스 코너 검출] 입력 영상: %s, Threshold: %d, 검출된 코너 갯수: %d"),
+							GetTitle(), dlg.m_nHarrisTh, corners.size());
+					AfxNewBitmap(dib);
+				}
+			}
+		}
+
+	
+	}
 }

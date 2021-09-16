@@ -87,4 +87,6 @@ public:
 	afx_msg void OnHarrisCorner();
 	afx_msg void OnColorGrayscale();
 	afx_msg void OnUpdateColorGrayscale(CCmdUI* pCmdUI);
+	afx_msg void OnTest();
+	afx_msg void OnTest2();
 };

@@ -172,13 +172,17 @@
 #define ID_HARRIS_CORNER                32861
 #define ID_32862                        32862
 #define ID_COLOR_GRAYSCALE              32863
+#define ID_32864                        32864
+#define ID_TEST                         32865
+#define ID_32866                        32866
+#define ID_TEST_2                       32867
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        341
-#define _APS_NEXT_COMMAND_VALUE         32864
+#define _APS_NEXT_COMMAND_VALUE         32868
 #define _APS_NEXT_CONTROL_VALUE         1049
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

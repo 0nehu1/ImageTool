@@ -1165,7 +1165,7 @@ void CImageToolDoc::OnTest2()
 
 		if (dib.GetBitCount() == 8)
 		{
-
+			
 			CResizeDlg dlg1;
 			dlg1.m_nOldWidth = dib.GetWidth();
 			dlg1.m_nOldHeight = dib.GetHeight();
@@ -1213,7 +1213,7 @@ void CImageToolDoc::OnTest2()
 						ptr[y + 2][x - 2] = 255;
 						ptr[y - 2][x + 2] = 255;
 						ptr[y + 2][x + 2] = 255;
-
+						
 						//Rectangle(h_dc,x - 10, y - 10, x + 10, y + 10);
 						//Rectangle(x - 10 y - 10, x + 10, y + 10);
 						//(x - 10, y - 10, x + 10, y + 10, RGB(255, 0, 0));
@@ -1226,11 +1226,7 @@ void CImageToolDoc::OnTest2()
 						AfxNewBitmap(dib);
 					}
 				}
-			
 			}
-		
-
-			
 		}
 	}
 

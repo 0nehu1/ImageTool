@@ -17,3 +17,5 @@ void IppInverse(IppRgbImage& img)
 		p[i].b = 255 - p[i].b;
 	}
 }
+
+

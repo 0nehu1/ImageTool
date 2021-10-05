@@ -47,6 +47,10 @@
 #pragma comment(lib, "winmm.lib")
 
 #include"IppImage\IppColor.h"
+#include "..\DLLTool\DetectDlg.h"
+#include "..\DLLTool\DetectDlg.cpp"
+
+
 
 #define CONVERT_DIB_TO_RGBIMAGE(m_Dib,img)\
 	IppRgbImage img;\
@@ -1071,7 +1075,7 @@ void CImageToolDoc::OnTest()
 					//CONVERT_IMAGE_TO_DIB(imgColor, dib)
 					CONVERT_DIB_TO_BYTEIMAGE(dib, img)
 						std::vector<IppPoint> corners;
-					IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
+				IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
 						
 					
 					RGBBYTE** ptr = imgColor2.GetPixels2D();
@@ -1165,7 +1169,7 @@ void CImageToolDoc::OnTest2()
 		CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
 			IppByteImage imgGray;
 		imgGray.Convert(imgColor);
-		IppRgbImage imgColor2;
+		IppRgbImage imgColor2; // 출력할 트루컬러 이미지
 		imgColor2 = imgColor;
 		CONVERT_IMAGE_TO_DIB(imgGray, dib)
 
@@ -1188,7 +1192,6 @@ void CImageToolDoc::OnTest2()
 				case 0: IppResizeNearest(imgSrc, imgDst, dlg1.m_nNewWidth, dlg1.m_nNewHeight); break;
 				case 1: IppResizeBilinear(imgSrc, imgDst, dlg1.m_nNewWidth, dlg1.m_nNewHeight); break;
 				case 2: IppResizeCubic(imgSrc, imgDst, dlg1.m_nNewWidth, dlg1.m_nNewHeight); break;
-
 				}
 				CONVERT_IMAGE_TO_DIB(imgDst, dib)
 

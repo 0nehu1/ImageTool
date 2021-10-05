@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageTool", "ImageTool\ImageTool.vcxproj", "{C4895785-5963-432A-9631-6AC55A37A590}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3C11CC99-F55E-40A7-B71B-F53F19CE3312} = {3C11CC99-F55E-40A7-B71B-F53F19CE3312}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DLLTool", "DLLTool\DLLTool.vcxproj", "{3C11CC99-F55E-40A7-B71B-F53F19CE3312}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,14 @@ Global
 		{C4895785-5963-432A-9631-6AC55A37A590}.Release|x64.Build.0 = Release|x64
 		{C4895785-5963-432A-9631-6AC55A37A590}.Release|x86.ActiveCfg = Release|Win32
 		{C4895785-5963-432A-9631-6AC55A37A590}.Release|x86.Build.0 = Release|Win32
+		{3C11CC99-F55E-40A7-B71B-F53F19CE3312}.Debug|x64.ActiveCfg = Debug|x64
+		{3C11CC99-F55E-40A7-B71B-F53F19CE3312}.Debug|x64.Build.0 = Debug|x64
+		{3C11CC99-F55E-40A7-B71B-F53F19CE3312}.Debug|x86.ActiveCfg = Debug|Win32
+		{3C11CC99-F55E-40A7-B71B-F53F19CE3312}.Debug|x86.Build.0 = Debug|Win32
+		{3C11CC99-F55E-40A7-B71B-F53F19CE3312}.Release|x64.ActiveCfg = Release|x64
+		{3C11CC99-F55E-40A7-B71B-F53F19CE3312}.Release|x64.Build.0 = Release|x64
+		{3C11CC99-F55E-40A7-B71B-F53F19CE3312}.Release|x86.ActiveCfg = Release|Win32
+		{3C11CC99-F55E-40A7-B71B-F53F19CE3312}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -187,6 +187,7 @@
     <ClInclude Include="CArithmeticLogicalDlg.h" />
     <ClInclude Include="CBrightnessContrastDlg.h" />
     <ClInclude Include="CCannyEdgeDlg.h" />
+    <ClInclude Include="CChatServerDlg.h" />
     <ClInclude Include="CDiffusionDlg.h" />
     <ClInclude Include="CFileNewDlg.h" />
     <ClInclude Include="CFreqFilteringDlg.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="CArithmeticLogicalDlg.cpp" />
     <ClCompile Include="CBrightnessContrastDlg.cpp" />
     <ClCompile Include="CCannyEdgeDlg.cpp" />
+    <ClCompile Include="CChatServerDlg.cpp" />
     <ClCompile Include="CDiffusionDlg.cpp" />
     <ClCompile Include="CFileNewDlg.cpp" />
     <ClCompile Include="CFreqFilteringDlg.cpp" />
@@ -273,6 +275,11 @@
     <Image Include="res\Toolbar.bmp" />
     <Image Include="res\Toolbar256.bmp" />
     <Image Include="res\userimages.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DLLTool\DLLTool.vcxproj">
+      <Project>{3c11cc99-f55e-40a7-b71b-f53f19ce3312}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

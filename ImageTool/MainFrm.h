@@ -4,6 +4,7 @@
 
 #pragma once
 #include "OutputWnd.h"
+#include <afxsock.h>            // MFC 소켓 확장
 
 class CMainFrame : public CMDIFrameWndEx
 {

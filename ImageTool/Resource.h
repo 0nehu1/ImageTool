@@ -4,6 +4,7 @@
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
+#define IDP_SOCKET_INIT_FAILED			101
 #define IDR_POPUP_EDIT                  119
 #define ID_STATUSBAR_PANE1              120
 #define ID_STATUSBAR_PANE2              121
@@ -40,6 +41,7 @@
 #define IDD_CANNY_EDGE                  337
 #define IDD_HARRIS_CORNER               339
 #define IDD_DIALOG_LINECONTROL          341
+#define IDD_DIALOG_CHAT                 343
 #define IDC_IMAGE_TYPE                  1000
 #define IDC_WIDTH                       1001
 #define IDC_HEIGHT                      1002
@@ -91,6 +93,8 @@
 #define IDC_HARRIS_THRESHOLD            1048
 #define IDC_SLIDER_LINECONTROL          1049
 #define IDC_EDIT_LINECONTROL            1050
+#define IDC_LIST1                       1051
+#define IDC_LIST                        1051
 #define ID_32771                        32771
 #define ID_WINDOW_DUPLICATE             32772
 #define ID_32773                        32773
@@ -250,9 +254,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        343
+#define _APS_NEXT_RESOURCE_VALUE        345
 #define _APS_NEXT_COMMAND_VALUE         32934
-#define _APS_NEXT_CONTROL_VALUE         1051
+#define _APS_NEXT_CONTROL_VALUE         1052
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

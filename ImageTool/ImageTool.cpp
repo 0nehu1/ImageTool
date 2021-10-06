@@ -13,9 +13,11 @@
 #include "ImageToolDoc.h"
 #include "ImageToolView.h"
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+#include "..\DLLTool\Resource.h"
 
 
 // CImageToolApp
@@ -84,6 +86,12 @@ BOOL CImageToolApp::InitInstance()
 	if (!AfxOleInit())
 	{
 		AfxMessageBox(IDP_OLE_INIT_FAILED);
+		return FALSE;
+	}
+
+	if (!AfxSocketInit())
+	{
+		AfxMessageBox(IDP_SOCKETS_INIT_FAILED);
 		return FALSE;
 	}
 

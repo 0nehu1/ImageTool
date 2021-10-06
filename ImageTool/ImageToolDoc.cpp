@@ -49,6 +49,7 @@
 #include"IppImage\IppColor.h"
 #include "..\DLLTool\DetectDlg.h"
 #include "..\DLLTool\DetectDlg.cpp"
+#include "CChatServerDlg.h"
 
 
 
@@ -99,6 +100,8 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_UPDATE_COMMAND_UI(ID_COLOR_GRAYSCALE, &CImageToolDoc::OnUpdateColorGrayscale)
 	ON_COMMAND(ID_TEST, &CImageToolDoc::OnTest)
 	ON_COMMAND(ID_TEST_2, &CImageToolDoc::OnTest2)
+	ON_COMMAND(ID_BUTTON_SERVER, &CImageToolDoc::OnButtonServer)
+	ON_COMMAND(ID_BUTTON_SERVER, &CImageToolDoc::OnButtonServer)
 END_MESSAGE_MAP()
 
 
@@ -1310,5 +1313,20 @@ void CImageToolDoc::OnTest2()
 		}
 
 	
+	}
+}
+
+
+
+
+
+void CImageToolDoc::OnButtonServer()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CChatServerDlg dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+
 	}
 }

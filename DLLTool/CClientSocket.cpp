@@ -36,10 +36,10 @@ void CClientSocket::OnReceive(int nErrorCode)
 	GetPeerName(strIPAddress, uPortNumber);
 	if (Receive(szBuffer, sizeof(szBuffer)) > 0)
 	{
-		CChatServerDlg* pMain = (CChatServerDlg*)AfxGetMainWnd();
-		strTmp.Format(_T("[%s:%d] : %s"), strIPAddress, uPortNumber, szBuffer);
-		pMain->m_List.AddString(strTmp);
-		pMain->m_List.SetCurSel(pMain->m_List.GetCount() - 1);
+		//CChatServerDlg* pMain = (CChatServerDlg*)AfxGetMainWnd();
+		//strTmp.Format(_T("[%s:%d] : %s"), strIPAddress, uPortNumber, szBuffer);
+		//pMain->m_List.AddString(strTmp);
+	//	pMain->m_List.SetCurSel(pMain->m_List.GetCount() - 1);
 
 		CListenSocket* pServerSocket = (CListenSocket*)m_pListenSocket;
 		pServerSocket->SendChatDataAll(szBuffer);

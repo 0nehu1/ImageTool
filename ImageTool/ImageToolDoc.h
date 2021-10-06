@@ -89,4 +89,6 @@ public:
 	afx_msg void OnUpdateColorGrayscale(CCmdUI* pCmdUI);
 	afx_msg void OnTest();
 	afx_msg void OnTest2();
+	
+	afx_msg void OnButtonServer();
 };

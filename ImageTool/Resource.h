@@ -4,7 +4,7 @@
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
-#define IDP_SOCKET_INIT_FAILED			101
+#define IDP_SOCKET_INIT_FAILED          101
 #define IDR_POPUP_EDIT                  119
 #define ID_STATUSBAR_PANE1              120
 #define ID_STATUSBAR_PANE2              121
@@ -249,13 +249,15 @@
 #define ID_32931                        32931
 #define ID_BUTTON_DIAGCROSS             32932
 #define ID_BUTTON_LINECONTROL           32933
+#define ID_32934                        32934
+#define ID_BUTTON_SERVER                32935
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        345
-#define _APS_NEXT_COMMAND_VALUE         32934
+#define _APS_NEXT_COMMAND_VALUE         32936
 #define _APS_NEXT_CONTROL_VALUE         1052
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

@@ -18,6 +18,7 @@
 #endif
 #include "MainFrm.h"
 #include <atlimage.h>
+#include "LineControl.h"
 
 // CImageToolView
 
@@ -73,6 +74,7 @@ BEGIN_MESSAGE_MAP(CImageToolView, CScrollView)
 	ON_COMMAND(ID_BUTTON_FDIAGONAL, &CImageToolView::OnButtonFdiagonal)
 	ON_COMMAND(ID_BUTTON_CROSS, &CImageToolView::OnButtonCross)
 	ON_COMMAND(ID_BUTTON_DIAGCROSS, &CImageToolView::OnButtonDiagcross)
+	ON_COMMAND(ID_BUTTON_LINECONTROL, &CImageToolView::OnButtonLinecontrol)
 END_MESSAGE_MAP()
 
 // CImageToolView 생성/소멸
@@ -1087,4 +1089,18 @@ void CImageToolView::OnButtonDiagcross()
 	m_nHatchStyle = HS_DIAGCROSS;
 	if (m_BrushColor == RGB(255, 255, 255))
 		m_BrushColor = BLACK_BRUSH;
+}
+
+
+void CImageToolView::OnButtonLinecontrol()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	LineControl dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		m_nPenSize = dlg.m_StrSize;
+
+	}
+	Invalidate(false);
 }

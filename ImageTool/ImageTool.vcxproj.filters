@@ -120,6 +120,9 @@
     <ClInclude Include="IppImage\IppColor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="LineControl.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImageTool.cpp">
@@ -210,6 +213,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="IppImage\IppColor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LineControl.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

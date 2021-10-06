@@ -132,6 +132,7 @@ public:
 	afx_msg void OnButtonFdiagonal();
 	afx_msg void OnButtonCross();
 	afx_msg void OnButtonDiagcross();
+	afx_msg void OnButtonLinecontrol();
 };
 
 #ifndef _DEBUG  // ImageToolView.cpp의 디버그 버전

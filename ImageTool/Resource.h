@@ -39,6 +39,7 @@
 #define IDD_FREQUENCY_FILTERING         334
 #define IDD_CANNY_EDGE                  337
 #define IDD_HARRIS_CORNER               339
+#define IDD_DIALOG_LINECONTROL          341
 #define IDC_IMAGE_TYPE                  1000
 #define IDC_WIDTH                       1001
 #define IDC_HEIGHT                      1002
@@ -88,6 +89,8 @@
 #define IDC_LOW_THRESHOLD               1047
 #define IDC_HIGH_THRESHOLD              1048
 #define IDC_HARRIS_THRESHOLD            1048
+#define IDC_SLIDER_LINECONTROL          1049
+#define IDC_EDIT_LINECONTROL            1050
 #define ID_32771                        32771
 #define ID_WINDOW_DUPLICATE             32772
 #define ID_32773                        32773
@@ -241,14 +244,15 @@
 #define ID_BUTTON_CROSS                 32930
 #define ID_32931                        32931
 #define ID_BUTTON_DIAGCROSS             32932
+#define ID_BUTTON_LINECONTROL           32933
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        341
-#define _APS_NEXT_COMMAND_VALUE         32933
-#define _APS_NEXT_CONTROL_VALUE         1049
+#define _APS_NEXT_RESOURCE_VALUE        343
+#define _APS_NEXT_COMMAND_VALUE         32934
+#define _APS_NEXT_CONTROL_VALUE         1051
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

@@ -3,7 +3,15 @@
 //
 
 #pragma once
-
+#include <vector>
+#include <memory>
+#pragma once
+enum DRAW_MODE {
+	PENCIL_MODE, LINE_MODE, ELLIPSE_MODE, RECTANGLE_MODE, ERASER_MODE
+	, TRIANGLE_MODE, RIGHTTRIANGLE_MODE, ROUNDRECT_MODE, PIERECT_MODE, HALFCIRCLE_HORIZONTAL_MODE, HALFCIRCLE_VERTICAL_MODE
+	, PIERECT270_MODE, PENTAGON_MODE, HEXAGON_MODE, OCTAGON_MODE, TRAPEZOID_MODE
+};
+enum PEN_MODE { SOLID_MODE, DASH_MODE, DOT_MODE, DASHDOT_MODE, DASHDOTDOT_MODE };
 
 class CImageToolView : public CScrollView
 {
@@ -57,6 +65,73 @@ public:
 	afx_msg void OnUpdateViewZoom3(CCmdUI* pCmdUI);
 	afx_msg void OnViewZoom4();
 	afx_msg void OnUpdateViewZoom4(CCmdUI* pCmdUI);
+//	afx_msg void OnPaint();
+
+public:
+
+	CPoint m_ptStart;
+	CPoint m_ptPrev;
+	bool m_bFirst;
+	bool m_bLButtonDown;
+	bool m_bContextMenu;
+	bool m_bHatch;
+	CPoint m_ptData[100];
+
+	int m_nCount;
+	COLORREF m_PenColor;
+	COLORREF m_BrushColor;
+	int m_nPenMode;
+	int m_nDrawMode;
+	int m_nHatchStyle;
+	int m_nPenSize;
+	
+
+
+
+	std::shared_ptr<Gdiplus::Bitmap> m_canvasAfterDrawing;
+	std::shared_ptr<Gdiplus::Bitmap> m_canvasDuringDraw;
+	CRect m_picture;
+
+	
+
+	//afx_msg void OnFileOpen();
+	
+	
+
+	afx_msg void OnPaint();
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+
+	afx_msg void OnButtonPencil();
+	afx_msg void OnButtonColor();
+	afx_msg void OnButtonEraser();
+	afx_msg void OnButtonColorfill();
+	afx_msg void OnButtonAllerase();
+	afx_msg void OnButtonLine();
+	afx_msg void OnButtonRighttri();
+	afx_msg void OnButtonRect();
+	afx_msg void OnButtonRoundrect();
+	afx_msg void OnButtonTrapezoid();
+	afx_msg void OnButtonPentagon();
+	afx_msg void OnButtonHexagon();
+	afx_msg void OnButtonPierect();
+	afx_msg void OnButtonHalfcircle();
+	afx_msg void OnButtonHalfcircle2();
+	afx_msg void OnButton270pierect();
+	afx_msg void OnButtonCircle();
+	afx_msg void OnButtonSolid();
+	afx_msg void OnButtonDash();
+	afx_msg void OnButtonDot();
+	afx_msg void OnButtonDashdot();
+	afx_msg void OnButtonDashdotdot();
+	afx_msg void OnButtonDefault();
+	afx_msg void OnButtonHorizontal();
+	afx_msg void OnButtonVertical();
+	afx_msg void OnButtonBdiagonal();
+	afx_msg void OnButtonFdiagonal();
+	afx_msg void OnButtonCross();
+	afx_msg void OnButtonDiagcross();
 };
 
 #ifndef _DEBUG  // ImageToolView.cpp의 디버그 버전

@@ -40,4 +40,4 @@ void IppEdgeCanny(IppByteImage& imgSrc, IppByteImage& imgEdge, float sigma, floa
 void IppHoughLine(IppByteImage& img, std::vector<IppLineParam>& lines, int threshold = 60);
 void IppDrawLine(IppByteImage& img, IppLineParam line, BYTE c);
 void IppDrawLine(IppByteImage& img, int x1, int y1, int x2, int y2, BYTE c);
-
+void IppHarrisCorner(IppByteImage& img, std::vector<IppPoint>& corners, double th);

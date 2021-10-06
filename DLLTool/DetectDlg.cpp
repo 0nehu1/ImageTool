@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "DetectDlg.h"
 
-void AFX_EXT_CLASS DetectDlg::IppHarrisCorner(IppByteImage& img, std::vector<IppPoint>& corners, double th)
+void DetectDlg::IppHarrisCorner(IppByteImage& img, std::vector<IppPoint>& corners, double th)
 {
 	register int i, j, x, y;
 

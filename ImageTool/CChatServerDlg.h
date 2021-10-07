@@ -4,7 +4,7 @@
 #include "afxdialogex.h"
 // CChatServerDlg 대화 상자
 
-class CChatServerDlg : public CDialogEx
+class CChatServerDlg : public CDialog
 {
 //	DECLARE_DYNAMIC(CChatServerDlg)
 

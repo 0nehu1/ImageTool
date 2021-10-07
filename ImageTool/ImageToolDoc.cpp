@@ -1323,10 +1323,10 @@ void CImageToolDoc::OnTest2()
 void CImageToolDoc::OnButtonServer()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	CChatServerDlg dlg;
-
-	if (dlg.DoModal() == IDOK)
+	static CChatServerDlg dlg;
+	if (dlg.GetSafeHwnd() == NULL)
 	{
-
+		dlg.Create(IDD_DIALOG_CHAT);
 	}
+	dlg.ShowWindow(SW_SHOW);
 }

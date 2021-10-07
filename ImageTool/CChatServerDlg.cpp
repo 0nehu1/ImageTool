@@ -14,7 +14,7 @@
 //IMPLEMENT_DYNAMIC(CChatServerDlg, CDialogEx)
 
 CChatServerDlg::CChatServerDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_DIALOG_CHAT, pParent)
+	: CDialog(IDD_DIALOG_CHAT, pParent)
 {
 
 }
@@ -25,12 +25,12 @@ CChatServerDlg::CChatServerDlg(CWnd* pParent /*=nullptr*/)
 
 void CChatServerDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST1, m_List);
 }
 
 
-BEGIN_MESSAGE_MAP(CChatServerDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CChatServerDlg, CDialog)
 	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
@@ -40,7 +40,7 @@ END_MESSAGE_MAP()
 
 BOOL CChatServerDlg::OnInitDialog()
 {
-	CDialogEx::OnInitDialog();
+	CDialog::OnInitDialog();
 
 
 
@@ -66,7 +66,7 @@ BOOL CChatServerDlg::OnInitDialog()
 
 void CChatServerDlg::OnDestroy()
 {
-	CDialogEx::OnDestroy();
+	CDialog::OnDestroy();
 
 
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.

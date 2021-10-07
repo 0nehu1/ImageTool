@@ -251,13 +251,15 @@
 #define ID_BUTTON_LINECONTROL           32933
 #define ID_32934                        32934
 #define ID_BUTTON_SERVER                32935
+#define ID_32936                        32936
+#define ID_BUTTON_SERVERTEST            32937
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        345
-#define _APS_NEXT_COMMAND_VALUE         32936
+#define _APS_NEXT_COMMAND_VALUE         32938
 #define _APS_NEXT_CONTROL_VALUE         1052
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

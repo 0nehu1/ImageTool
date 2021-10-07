@@ -54,7 +54,8 @@ void AFX_EXT_CLASS CListenSocket::SendChatDataAll(TCHAR* pszMessage)
 			if (0 == _tcscmp(pszMessage, _T(".detect")))
 			{
 				// 같다
-
+				
+				AfxMessageBox(_T("안녕하세요"));
 			}
 		}
 	}

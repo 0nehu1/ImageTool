@@ -69,7 +69,7 @@ BOOL IppDib::CreateGrayBitmap(LONG nWidth, LONG nHeight)
 
 	// 픽셀 데이터 초기화
 	BYTE* pData = GetDIBitsAddr();
-	memset(pData, 0, dwSizeImage);
+	memset(pData, 255, dwSizeImage);
 
 	return TRUE;
 }
@@ -107,7 +107,7 @@ BOOL IppDib::CreateRgbBitmap(LONG nWidth, LONG nHeight)
 
 	// 픽셀 데이터 초기화
 	BYTE* pData = GetDIBitsAddr();
-	memset(pData, 0, dwSizeImage);
+	memset(pData, 255, dwSizeImage);
 
 	return TRUE;
 }

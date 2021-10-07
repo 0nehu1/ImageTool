@@ -125,19 +125,7 @@ BOOL CImageToolView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CImageToolView::OnDraw(CDC* pDC)
 {
-	CImageToolDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	if (!pDoc)
-		return;
-
-	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 	
-	if (pDoc->m_Dib.IsValid())
-	{
-		int w = pDoc->m_Dib.GetWidth();
-		int h = pDoc->m_Dib.GetHeight();
-		pDoc->m_Dib.Draw(pDC->m_hDC,0,0,w*m_nZoom,h*m_nZoom);
-	}
 }
 
 void CImageToolView::OnInitialUpdate()
@@ -336,6 +324,15 @@ void CImageToolView::OnPaint()
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
+
+	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+
+	if (pDoc->m_Dib.IsValid())
+	{
+		int w = pDoc->m_Dib.GetWidth();
+		int h = pDoc->m_Dib.GetHeight();
+		pDoc->m_Dib.Draw(dc.m_hDC, 0, 0, w * m_nZoom, h * m_nZoom);
+	}
 
 
 	CPen pen, * oldpen;

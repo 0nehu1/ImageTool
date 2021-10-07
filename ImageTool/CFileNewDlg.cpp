@@ -13,8 +13,8 @@ IMPLEMENT_DYNAMIC(CFileNewDlg, CDialogEx)
 
 CFileNewDlg::CFileNewDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_FILE_NEW, pParent)
-	, m_nWidth(0)
-	, m_nHeight(0)
+	, m_nWidth(1)
+	, m_nHeight(1)
 	, m_nType(0)
 {
 

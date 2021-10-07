@@ -253,13 +253,20 @@
 #define ID_BUTTON_SERVER                32935
 #define ID_32936                        32936
 #define ID_BUTTON_SERVERTEST            32937
+#define ID_32938                        32938
+#define ID_32939                        32939
+#define ID_32940                        32940
+#define ID_32941                        32941
+#define ID_COLOR_SPLIT_RGB              32942
+#define ID_COLOR_SPLIT_HSI              32943
+#define ID_COLOR_SPLIT_YUV              32944
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        345
-#define _APS_NEXT_COMMAND_VALUE         32938
+#define _APS_NEXT_COMMAND_VALUE         32945
 #define _APS_NEXT_CONTROL_VALUE         1052
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

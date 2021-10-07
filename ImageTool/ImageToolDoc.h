@@ -91,4 +91,8 @@ public:
 	afx_msg void OnTest2();
 	
 	afx_msg void OnButtonServer();
+
+	afx_msg void OnColorSplitRgb();
+	afx_msg void OnColorSplitHsi();
+	afx_msg void OnColorSplitYuv();
 };

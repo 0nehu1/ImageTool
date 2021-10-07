@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "CListenSocket.h"
 #include "CClientSocket.h"
-
-
+#include "..\ImageTool\ImageToolDoc.h"
 
 void AFX_EXT_CLASS CListenSocket::OnAccept(int nErrorCode)
 {
@@ -56,6 +55,9 @@ void AFX_EXT_CLASS CListenSocket::SendChatDataAll(TCHAR* pszMessage)
 				// 같다
 				
 				AfxMessageBox(_T("안녕하세요"));
+
+				//CImageToolDoc* pMain = (CImageToolDoc*)AfxGetMainWnd();
+				//pMain->OnTest();
 			}
 		}
 	}

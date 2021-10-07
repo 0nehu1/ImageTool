@@ -101,7 +101,12 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_TEST, &CImageToolDoc::OnTest)
 	ON_COMMAND(ID_TEST_2, &CImageToolDoc::OnTest2)
 	ON_COMMAND(ID_BUTTON_SERVER, &CImageToolDoc::OnButtonServer)
-	ON_COMMAND(ID_BUTTON_SERVER, &CImageToolDoc::OnButtonServer)
+	
+
+	
+	ON_COMMAND(ID_COLOR_SPLIT_RGB, &CImageToolDoc::OnColorSplitRgb)
+	ON_COMMAND(ID_COLOR_SPLIT_HSI, &CImageToolDoc::OnColorSplitHsi)
+	ON_COMMAND(ID_COLOR_SPLIT_YUV, &CImageToolDoc::OnColorSplitYuv)
 END_MESSAGE_MAP()
 
 
@@ -1329,4 +1334,63 @@ void CImageToolDoc::OnButtonServer()
 		dlg.Create(IDD_DIALOG_CHAT);
 	}
 	dlg.ShowWindow(SW_SHOW);
+}
+
+
+
+
+
+
+
+
+
+
+void CImageToolDoc::OnColorSplitRgb()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
+		IppByteImage imgR, imgG, imgB;
+	IppColorSplitYUV(imgColor, imgR, imgG, imgB);
+	CONVERT_IMAGE_TO_DIB(imgR, dibR)
+		CONVERT_IMAGE_TO_DIB(imgG, dibG)
+		CONVERT_IMAGE_TO_DIB(imgB, dibB)
+
+		AfxPrintInfo(_T("[색상 평면 나누기/YUV] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dibR);
+	AfxNewBitmap(dibG);
+	AfxNewBitmap(dibB);
+}
+
+
+void CImageToolDoc::OnColorSplitHsi()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
+		IppByteImage imgH, imgS, imgI;
+	IppColorSplitHSI(imgColor, imgH, imgS, imgI);
+	CONVERT_IMAGE_TO_DIB(imgH, dibH)
+		CONVERT_IMAGE_TO_DIB(imgS, dibS)
+		CONVERT_IMAGE_TO_DIB(imgI, dibI)
+
+		AfxPrintInfo(_T("[색상 평면 나누기/HSI] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dibH);
+	AfxNewBitmap(dibS);
+	AfxNewBitmap(dibI);
+}
+
+
+void CImageToolDoc::OnColorSplitYuv()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
+		IppByteImage imgY, imgU, imgV;
+	IppColorSplitYUV(imgColor, imgY, imgU, imgV);
+	CONVERT_IMAGE_TO_DIB(imgY, dibY)
+		CONVERT_IMAGE_TO_DIB(imgU, dibU)
+		CONVERT_IMAGE_TO_DIB(imgV, dibV)
+
+		AfxPrintInfo(_T("[색상 평면 나누기/YUV] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dibY);
+	AfxNewBitmap(dibU);
+	AfxNewBitmap(dibV);
 }

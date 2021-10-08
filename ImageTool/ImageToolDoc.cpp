@@ -114,6 +114,8 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_COLOR_COMBINE_RGB, &CImageToolDoc::OnColorCombineRgb)
 	ON_COMMAND(ID_COLOR_COMBINE_HSI, &CImageToolDoc::OnColorCombineHsi)
 	ON_COMMAND(ID_COLOR_COMBINE_YUV, &CImageToolDoc::OnColorCombineYuv)
+	ON_COMMAND(ID_COLOR_EDGE, &CImageToolDoc::OnColorEdge)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_EDGE, &CImageToolDoc::OnUpdateColorEdge)
 END_MESSAGE_MAP()
 
 
@@ -1515,4 +1517,24 @@ void CImageToolDoc::OnColorCombineYuv()
 				pDoc1->GetTitle(), pDoc2->GetTitle(), pDoc3->GetTitle());
 		AfxNewBitmap(dib);
 	}
+}
+
+
+void CImageToolDoc::OnColorEdge()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CONVERT_DIB_TO_RGBIMAGE(m_Dib, img)
+		IppByteImage imgEdge;
+	IppColorEdge(img, imgEdge);
+	CONVERT_IMAGE_TO_DIB(imgEdge, dib)
+
+		AfxPrintInfo(_T("[컬러 엣지 검출] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dib);
+}
+
+
+void CImageToolDoc::OnUpdateColorEdge(CCmdUI* pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->Enable(m_Dib.GetBitCount() == 24);
 }

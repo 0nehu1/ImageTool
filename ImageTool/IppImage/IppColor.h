@@ -17,3 +17,5 @@ void IppColorSplitYUV(IppRgbImage& imgColor, IppByteImage& imgY, IppByteImage& i
 bool IppColorCombineRGB(IppByteImage& imgR, IppByteImage& imgG, IppByteImage& imgB, IppRgbImage& imgColor);
 bool IppColorCombineHSI(IppByteImage& imgH, IppByteImage& imgS, IppByteImage& imgI, IppRgbImage& imgColor);
 bool IppColorCombineYUV(IppByteImage& imgY, IppByteImage& imgU, IppByteImage& imgV, IppRgbImage& imgColor);
+
+void IppColorEdge(IppRgbImage& imgSrc, IppByteImage& imgEdge);

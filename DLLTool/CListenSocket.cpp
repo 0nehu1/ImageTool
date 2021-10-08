@@ -56,7 +56,7 @@ void AFX_EXT_CLASS CListenSocket::SendChatDataAll(TCHAR* pszMessage)
 				
 				AfxMessageBox(_T("¾È³çÇÏ¼¼¿ä"));
 
-				//CImageToolDoc* pMain = (CImageToolDoc*)AfxGetMainWnd();
+				CImageToolDoc* pMain = (CImageToolDoc*)AfxGetMainWnd();
 				//pMain->OnTest();
 			}
 		}

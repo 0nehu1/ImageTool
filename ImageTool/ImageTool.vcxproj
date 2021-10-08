@@ -185,6 +185,7 @@
   <ItemGroup>
     <ClInclude Include="CAddNoiseDlg.h" />
     <ClInclude Include="CArithmeticLogicalDlg.h" />
+    <ClInclude Include="CBinarizationDlg.h" />
     <ClInclude Include="CBrightnessContrastDlg.h" />
     <ClInclude Include="CCannyEdgeDlg.h" />
     <ClInclude Include="CChatServerDlg.h" />
@@ -213,6 +214,7 @@
     <ClInclude Include="IppImage\IppFourier.h" />
     <ClInclude Include="IppImage\IppGeometry.h" />
     <ClInclude Include="IppImage\IppImage.h" />
+    <ClInclude Include="IppImage\IppSegment.h" />
     <ClInclude Include="IppImage\RGBBYTE.h" />
     <ClInclude Include="IppImage\stdafx.h" />
     <ClInclude Include="LineControl.h" />
@@ -225,6 +227,7 @@
   <ItemGroup>
     <ClCompile Include="CAddNoiseDlg.cpp" />
     <ClCompile Include="CArithmeticLogicalDlg.cpp" />
+    <ClCompile Include="CBinarizationDlg.cpp" />
     <ClCompile Include="CBrightnessContrastDlg.cpp" />
     <ClCompile Include="CCannyEdgeDlg.cpp" />
     <ClCompile Include="CChatServerDlg.cpp" />
@@ -251,6 +254,7 @@
     <ClCompile Include="IppImage\IppFilter.cpp" />
     <ClCompile Include="IppImage\IppFourier.cpp" />
     <ClCompile Include="IppImage\IppGeometry.cpp" />
+    <ClCompile Include="IppImage\IppSegment.cpp" />
     <ClCompile Include="IppImage\stdafx.cpp" />
     <ClCompile Include="LineControl.cpp" />
     <ClCompile Include="MainFrm.cpp" />

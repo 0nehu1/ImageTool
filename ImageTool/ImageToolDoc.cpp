@@ -51,6 +51,8 @@
 #include "..\DLLTool\DetectDlg.cpp"
 #include "CChatServerDlg.h"
 #include "CColorCombineDlg.h"
+#include "CBinarizationDlg.h"
+#include "IppImage\IppSegment.h"
 
 
 
@@ -116,6 +118,11 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_COLOR_COMBINE_YUV, &CImageToolDoc::OnColorCombineYuv)
 	ON_COMMAND(ID_COLOR_EDGE, &CImageToolDoc::OnColorEdge)
 	ON_UPDATE_COMMAND_UI(ID_COLOR_EDGE, &CImageToolDoc::OnUpdateColorEdge)
+	ON_COMMAND(ID_SEGMENT_BINARIZATION, &CImageToolDoc::OnSegmentBinarization)
+	ON_COMMAND(ID_SEGMENT_LABELING, &CImageToolDoc::OnSegmentLabeling)
+	ON_COMMAND(ID_CONTOUR_TRACING, &CImageToolDoc::OnContourTracing)
+	ON_COMMAND(ID_TEST_POINT, &CImageToolDoc::OnTestPoint)
+	ON_COMMAND(ID_TEST_POINT2, &CImageToolDoc::OnTestPoint2)
 END_MESSAGE_MAP()
 
 
@@ -397,13 +404,28 @@ void CImageToolDoc::OnHistoStretching()
 void CImageToolDoc::OnHistoEqualization()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
-		IppHistogramEqualization(img);
-	CONVERT_IMAGE_TO_DIB(img, dib)
+	if (m_Dib.GetBitCount() == 8)
+	{
+		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
+			IppHistogramEqualization(img);
+		CONVERT_IMAGE_TO_DIB(img, dib)
 
-		AfxPrintInfo(_T("[히스토그램 균등화] 입력 영상: %s"), GetTitle());
-	AfxNewBitmap(dib);
+			AfxPrintInfo(_T("[히스토그램 균등화] 입력 영상: %s"), GetTitle());
+		AfxNewBitmap(dib);
+	}
+	else if (m_Dib.GetBitCount() == 24)
+	{
+		CONVERT_DIB_TO_RGBIMAGE(m_Dib, img)
+			IppByteImage imgY, imgU, imgV;
+		IppColorSplitYUV(img, imgY, imgU, imgV);
+		IppHistogramEqualization(imgY);
+		IppRgbImage imgRes;
+		IppColorCombineYUV(imgY, imgU, imgV, imgRes);
+		CONVERT_IMAGE_TO_DIB(imgRes, dib)
 
+			AfxPrintInfo(_T("[히스토그램 균등화] 입력 영상: %s"), GetTitle());
+		AfxNewBitmap(dib);
+	}
 }
 
 
@@ -1065,117 +1087,6 @@ void CImageToolDoc::OnUpdateColorGrayscale(CCmdUI* pCmdUI)
 }
 
 
-void CImageToolDoc::OnTest()
-{
-	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-
-		if (m_Dib.GetBitCount() == 24)
-		{
-			CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
-				IppByteImage imgGray;
-			IppRgbImage imgColor2;
-			imgColor2 = imgColor;
-			imgGray.Convert(imgColor);
-			CONVERT_IMAGE_TO_DIB(imgGray, dib)
-				
-				AfxPrintInfo(_T("[그레이스케일 변환] 입력 영상: %s "), GetTitle());
-			AfxNewBitmap(dib);
-
-			if (dib.GetBitCount() == 8)
-			{
-				CHarrisCornerDlg dlg;
-
-				HDC h_dc = ::GetDC(NULL);
-				if (dlg.DoModal() == IDOK)
-				{
-					//imgColor.Convert(imgGray);
-					//CONVERT_IMAGE_TO_DIB(imgColor, dib)
-					CONVERT_DIB_TO_BYTEIMAGE(dib, img)
-						std::vector<IppPoint> corners;
-				IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
-						
-					
-					RGBBYTE** ptr = imgColor2.GetPixels2D();
-					
-					//RECT rect;
-					
-					int x, y;
-					for (IppPoint cp : corners)
-					{
-						x = cp.x;
-						y = cp.y;
-
-						//ptr[y - 1][x - 1] = ptr[y - 1][x] = ptr[y - 1][x + 1] = 255;
-						//ptr[y][x - 1] = ptr[y][x] = ptr[y][x + 1] = 255;
-						//ptr[y + 1][x - 1] = ptr[y + 1][x] = ptr[y + 1][x + 1] = 255;
-
-						ptr[y - 2][x - 2] = 255;
-						ptr[y + 2][x - 2] = 255;
-						ptr[y - 2][x + 2] = 255;
-						ptr[y + 2][x + 2] = 255;
-
-						//Rectangle(h_dc,x - 10, y - 10, x + 10, y + 10);
-						//Rectangle(x - 10 y - 10, x + 10, y + 10);
-						//(x - 10, y - 10, x + 10, y + 10, RGB(255, 0, 0));
-					}
-					{
-
-
-						CONVERT_IMAGE_TO_DIB(imgColor2, dib)
-						
-							AfxPrintInfo(_T("[해리스 코너 검출] 입력 영상: %s, Threshold: %d, 검출된 코너 갯수: %d"),
-								GetTitle(), dlg.m_nHarrisTh, corners.size());
-						AfxNewBitmap(dib);
-					}
-			
-				}
-			}
-		}
-	
-		else if (m_Dib.GetBitCount() == 8)
-		{
-			CHarrisCornerDlg dlg;
-
-			HDC h_dc = ::GetDC(NULL);
-			if (dlg.DoModal() == IDOK)
-			{
-				CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
-					std::vector<IppPoint> corners;
-				IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
-
-				BYTE** ptr = img.GetPixels2D();
-
-				//RECT rect;
-
-				int x, y;
-				for (IppPoint cp : corners)
-				{
-					x = cp.x;
-					y = cp.y;
-
-					//ptr[y - 1][x - 1] = ptr[y - 1][x] = ptr[y - 1][x + 1] = 255;
-					//ptr[y][x - 1] = ptr[y][x] = ptr[y][x + 1] = 255;
-					//ptr[y + 1][x - 1] = ptr[y + 1][x] = ptr[y + 1][x + 1] = 255;
-
-					ptr[y - 2][x - 2] = 255;
-					ptr[y + 2][x - 2] = 255;
-					ptr[y - 2][x + 2] = 255;
-					ptr[y + 2][x + 2] = 255;
-
-					//Rectangle(h_dc,x - 10, y - 10, x + 10, y + 10);
-					//Rectangle(x - 10 y - 10, x + 10, y + 10);
-					//(x - 10, y - 10, x + 10, y + 10, RGB(255, 0, 0));
-				}
-				{
-					CONVERT_IMAGE_TO_DIB(img, dib)
-
-						AfxPrintInfo(_T("[해리스 코너 검출] 입력 영상: %s, Threshold: %d, 검출된 코너 갯수: %d"),
-							GetTitle(), dlg.m_nHarrisTh, corners.size());
-					AfxNewBitmap(dib);
-				}
-			}
-		}
-}
 
 
 void CImageToolDoc::OnTest2()
@@ -1537,4 +1448,349 @@ void CImageToolDoc::OnUpdateColorEdge(CCmdUI* pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->Enable(m_Dib.GetBitCount() == 24);
+}
+
+
+void CImageToolDoc::OnSegmentBinarization()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CBinarizationDlg dlg;
+	dlg.SetImage(m_Dib);
+	if (dlg.DoModal() == IDOK)
+	{
+		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
+			IppByteImage imgRes;
+		IppBinarization(img, imgRes, dlg.m_nThreshold);
+		CONVERT_IMAGE_TO_DIB(imgRes, dib)
+
+			AfxPrintInfo(_T("[이진화] 입력 영상: %s, 임계값: %d"), GetTitle(), dlg.m_nThreshold);
+		AfxNewBitmap(dib);
+	}
+}
+
+
+void CImageToolDoc::OnSegmentLabeling()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
+		IppIntImage imgLabel;
+	std::vector<IppLabelInfo>labels;
+	int label_cnt = IppLabeling(img, imgLabel, labels);
+
+	//객체를 감싸는 사각형 그리기
+	BYTE** ptr = img.GetPixels2D();
+	for (IppLabelInfo& info : labels)
+	{
+		for (int j = info.miny; j <= info.maxy; j++)
+			ptr[j][info.minx] = ptr[j][info.maxx] = 128; 
+
+		for (int i = info.minx; i <= info.maxx; i++)
+			ptr[info.miny][i] = ptr[info.maxy][i] = 128;
+	}
+
+	CONVERT_IMAGE_TO_DIB(img, dib)
+
+		AfxPrintInfo(_T("[레이블링] 입력 영상: %s, 객체 갯수: %d"), GetTitle(), label_cnt);
+	AfxNewBitmap(dib);
+}
+
+
+void CImageToolDoc::OnContourTracing()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
+		IppIntImage imgLabel;
+	std::vector<IppLabelInfo> labels;
+	int label_cnt = IppLabeling(img, imgLabel, labels);
+	
+	IppByteImage imgContour(img.GetWidth(), img.GetHeight());
+	BYTE** ptr = imgContour.GetPixels2D();
+	for (IppLabelInfo& info : labels)
+	{
+		std::vector<IppPoint> cp;
+		IppContourTracing(img, info.pixels[0].x, info.pixels[0].y, cp);
+
+		for (IppPoint& pt : cp)
+			ptr[pt.y][pt.x] = 255;
+	}
+	CONVERT_IMAGE_TO_DIB(imgContour, dib)
+
+		AfxPrintInfo(_T("[외곽선 추적] 입력 영상:%s"), GetTitle());
+	AfxNewBitmap(dib);
+}
+
+
+void CImageToolDoc::OnTest()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	if (m_Dib.GetBitCount() == 24)
+	{
+		CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
+			IppByteImage imgGray;
+		IppRgbImage imgColor2;
+		imgColor2 = imgColor;
+		imgGray.Convert(imgColor);
+		CONVERT_IMAGE_TO_DIB(imgGray, dib)
+
+			AfxPrintInfo(_T("[그레이스케일 변환] 입력 영상: %s "), GetTitle());
+		AfxNewBitmap(dib);
+
+		if (dib.GetBitCount() == 8)
+		{
+			CHarrisCornerDlg dlg;
+
+			HDC h_dc = ::GetDC(NULL);
+			if (dlg.DoModal() == IDOK)
+			{
+				//imgColor.Convert(imgGray);
+				//CONVERT_IMAGE_TO_DIB(imgColor, dib)
+				CONVERT_DIB_TO_BYTEIMAGE(dib, img)
+					std::vector<IppPoint> corners;
+				IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
+
+
+				RGBBYTE** ptr = imgColor2.GetPixels2D();
+
+				//RECT rect;
+
+				int x, y;
+				for (IppPoint cp : corners)
+				{
+					x = cp.x;
+					y = cp.y;
+
+					//ptr[y - 1][x - 1] = ptr[y - 1][x] = ptr[y - 1][x + 1] = 255;
+					//ptr[y][x - 1] = ptr[y][x] = ptr[y][x + 1] = 255;
+					//ptr[y + 1][x - 1] = ptr[y + 1][x] = ptr[y + 1][x + 1] = 255;
+
+					ptr[y - 2][x - 2] = 255;
+					ptr[y + 2][x - 2] = 255;
+					ptr[y - 2][x + 2] = 255;
+					ptr[y + 2][x + 2] = 255;
+
+					//Rectangle(h_dc,x - 10, y - 10, x + 10, y + 10);
+					//Rectangle(x - 10 y - 10, x + 10, y + 10);
+					//(x - 10, y - 10, x + 10, y + 10, RGB(255, 0, 0));
+				}
+				{
+
+
+					CONVERT_IMAGE_TO_DIB(imgColor2, dib)
+
+						AfxPrintInfo(_T("[노이즈 검출] 입력 영상: %s, Threshold: %d, 검출된 노이즈 갯수: %d"),
+							GetTitle(), dlg.m_nHarrisTh, corners.size());
+					AfxNewBitmap(dib);
+				}
+
+			}
+		}
+	}
+
+	else if (m_Dib.GetBitCount() == 8)
+	{
+		CHarrisCornerDlg dlg;
+
+		HDC h_dc = ::GetDC(NULL);
+		if (dlg.DoModal() == IDOK)
+		{
+			CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
+				std::vector<IppPoint> corners;
+			IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
+
+			BYTE** ptr = img.GetPixels2D();
+
+			//RECT rect;
+
+			int x, y;
+			for (IppPoint cp : corners)
+			{
+				x = cp.x;
+				y = cp.y;
+
+				//ptr[y - 1][x - 1] = ptr[y - 1][x] = ptr[y - 1][x + 1] = 255;
+				//ptr[y][x - 1] = ptr[y][x] = ptr[y][x + 1] = 255;
+				//ptr[y + 1][x - 1] = ptr[y + 1][x] = ptr[y + 1][x + 1] = 255;
+
+				ptr[y - 2][x - 2] = 255;
+				ptr[y + 2][x - 2] = 255;
+				ptr[y - 2][x + 2] = 255;
+				ptr[y + 2][x + 2] = 255;
+
+				//Rectangle(h_dc,x - 10, y - 10, x + 10, y + 10);
+				//Rectangle(x - 10 y - 10, x + 10, y + 10);
+				//(x - 10, y - 10, x + 10, y + 10, RGB(255, 0, 0));
+			}
+			{
+				CONVERT_IMAGE_TO_DIB(img, dib)
+
+					AfxPrintInfo(_T("[해리스 코너 검출] 입력 영상: %s, Threshold: %d, 검출된 코너 갯수: %d"),
+						GetTitle(), dlg.m_nHarrisTh, corners.size());
+				AfxNewBitmap(dib);
+			}
+		}
+	}
+}
+
+void CImageToolDoc::OnTestPoint()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	if (m_Dib.GetBitCount() == 24)
+	{
+		CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
+		IppByteImage imgEdge;
+		IppRgbImage imgColor2;
+		imgColor2 = imgColor;
+		IppColorEdge(imgColor, imgEdge);
+		CONVERT_IMAGE_TO_DIB(imgEdge, dib)
+
+			
+		AfxNewBitmap(dib);
+
+		if (dib.GetBitCount() == 8)
+		{
+			CBinarizationDlg dlg;
+			dlg.SetImage(dib);
+			if (dlg.DoModal() == IDOK)
+			{
+				CONVERT_DIB_TO_BYTEIMAGE(dib, img)
+					IppByteImage imgRes;
+				IppBinarization(img, imgRes, dlg.m_nThreshold);
+				CONVERT_IMAGE_TO_DIB(imgRes, dib1)
+
+					AfxPrintInfo(_T("[이진화] 입력 영상: %s, 임계값: %d"), GetTitle(), dlg.m_nThreshold);
+				AfxNewBitmap(dib1);
+
+
+				{
+					CONVERT_DIB_TO_BYTEIMAGE(dib1, img)
+					IppIntImage imgLabel;
+				std::vector<IppLabelInfo>labels;
+				int label_cnt = IppLabeling(img, imgLabel, labels);
+
+				//객체를 감싸는 사각형 그리기
+				RGBBYTE** ptr = imgColor2.GetPixels2D();
+				for (IppLabelInfo& info : labels)
+					{
+					for (int j = info.miny; j <= info.maxy; j++)
+						ptr[j][info.minx] = ptr[j][info.maxx] = 255;
+
+					for (int i = info.minx; i <= info.maxx; i++)
+						ptr[info.miny][i] = ptr[info.maxy][i] = 255;
+					}
+
+				{
+					CONVERT_IMAGE_TO_DIB(imgColor2, dib1)
+
+						AfxPrintInfo(_T("[레이블링] 입력 영상: %s, 검출한 점 갯수: %d"), GetTitle(), label_cnt);
+					AfxNewBitmap(dib1);
+				}
+				}
+				
+			}
+			
+		}
+	}
+	if (m_Dib.GetBitCount() == 8)
+	{
+		CBinarizationDlg dlg;
+		dlg.SetImage(m_Dib);
+		if (dlg.DoModal() == IDOK)
+		{
+			CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
+				IppByteImage imgRes;
+			IppBinarization(img, imgRes, dlg.m_nThreshold);
+			CONVERT_IMAGE_TO_DIB(imgRes, dib)
+
+				AfxPrintInfo(_T("[이진화] 입력 영상: %s, 임계값: %d"), GetTitle(), dlg.m_nThreshold);
+			AfxNewBitmap(dib);
+		
+
+			{		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
+				IppIntImage imgLabel;
+			std::vector<IppLabelInfo>labels;
+			int label_cnt = IppLabeling(img, imgLabel, labels);
+
+			//객체를 감싸는 사각형 그리기
+			BYTE** ptr = img.GetPixels2D();
+			for (IppLabelInfo& info : labels)
+			{
+				for (int j = info.miny; j <= info.maxy; j++)
+					ptr[j][info.minx] = ptr[j][info.maxx] = 255;
+
+				for (int i = info.minx; i <= info.maxx; i++)
+					ptr[info.miny][i] = ptr[info.maxy][i] = 255;
+			}
+			{
+				CONVERT_IMAGE_TO_DIB(img, dib)
+
+					AfxPrintInfo(_T("[레이블링] 입력 영상: %s, 객체 갯수: %d"), GetTitle(), label_cnt);
+				AfxNewBitmap(dib);
+			}
+			}
+		}
+
+	}
+}
+
+
+void CImageToolDoc::OnTestPoint2()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	if (m_Dib.GetBitCount() == 24)
+	{
+		CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
+			IppByteImage imgGray;
+		IppRgbImage imgColor2;
+		imgColor2 = imgColor;
+		imgGray.Convert(imgColor);
+		CONVERT_IMAGE_TO_DIB(imgGray, dib)
+
+			AfxPrintInfo(_T("[그레이스케일 변환] 입력 영상: %s "), GetTitle());
+		AfxNewBitmap(dib);
+
+		if (dib.GetBitCount() == 8)
+		{
+			CCannyEdgeDlg dlg;
+			if (dlg.DoModal() == IDOK)
+			{
+				CONVERT_DIB_TO_BYTEIMAGE(dib, img)
+					IppByteImage imgEdge;
+				IppEdgeCanny(img, imgEdge, dlg.m_fSigma, dlg.m_fLowTh, dlg.m_fHighTh);
+				CONVERT_IMAGE_TO_DIB(imgEdge, dib1);
+
+				AfxNewBitmap(dib1);
+			
+			
+				{
+					CONVERT_DIB_TO_BYTEIMAGE(dib1, img)
+						IppIntImage imgLabel;
+					std::vector<IppLabelInfo>labels;
+					int label_cnt = IppLabeling(img, imgLabel, labels);
+
+					//객체를 감싸는 사각형 그리기
+					RGBBYTE** ptr = imgColor2.GetPixels2D();
+					for (IppLabelInfo& info : labels)
+					{
+						for (int j = info.miny; j <= info.maxy; j++)
+							ptr[j][info.minx] = ptr[j][info.maxx] = 255;
+
+						for (int i = info.minx; i <= info.maxx; i++)
+							ptr[info.miny][i] = ptr[info.maxy][i] = 255;
+					}
+					{
+						CONVERT_IMAGE_TO_DIB(imgColor2, dib1)
+
+							AfxPrintInfo(_T("[레이블링] 입력 영상: %s, 객체 갯수: %d"), GetTitle(), label_cnt);
+						AfxNewBitmap(dib1);
+					}
+				}
+			}
+		}
+
+
+
+	}
 }

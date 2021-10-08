@@ -188,6 +188,7 @@
     <ClInclude Include="CBrightnessContrastDlg.h" />
     <ClInclude Include="CCannyEdgeDlg.h" />
     <ClInclude Include="CChatServerDlg.h" />
+    <ClInclude Include="CColorCombineDlg.h" />
     <ClInclude Include="CDiffusionDlg.h" />
     <ClInclude Include="CFileNewDlg.h" />
     <ClInclude Include="CFreqFilteringDlg.h" />
@@ -227,6 +228,7 @@
     <ClCompile Include="CBrightnessContrastDlg.cpp" />
     <ClCompile Include="CCannyEdgeDlg.cpp" />
     <ClCompile Include="CChatServerDlg.cpp" />
+    <ClCompile Include="CColorCombineDlg.cpp" />
     <ClCompile Include="CDiffusionDlg.cpp" />
     <ClCompile Include="CFileNewDlg.cpp" />
     <ClCompile Include="CFreqFilteringDlg.cpp" />

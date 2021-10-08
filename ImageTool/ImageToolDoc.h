@@ -95,4 +95,10 @@ public:
 	afx_msg void OnColorSplitRgb();
 	afx_msg void OnColorSplitHsi();
 	afx_msg void OnColorSplitYuv();
+	afx_msg void OnUpdateColorSplitRgb(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateColorSplitHsi(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateColorSplitYuv(CCmdUI* pCmdUI);
+	afx_msg void OnColorCombineRgb();
+	afx_msg void OnColorCombineHsi();
+	afx_msg void OnColorCombineYuv();
 };

@@ -1,6 +1,6 @@
-Ôªø//{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ÏóêÏÑú ÏÉùÏÑ±Ìïú Ìè¨Ìï® ÌååÏùºÏûÖÎãàÎã§.
-// ImageTool.rcÏóêÏÑú ÏÇ¨Ïö©ÎêòÍ≥† ÏûàÏäµÎãàÎã§.
+//{{NO_DEPENDENCIES}}
+// Microsoft Visual C++ø°º≠ ª˝º∫«— ∆˜«‘ ∆ƒ¿œ¿‘¥œ¥Ÿ.
+// ImageTool.rcø°º≠ ªÁøÎµ«∞Ì ¿÷Ω¿¥œ¥Ÿ.
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
@@ -42,6 +42,8 @@
 #define IDD_HARRIS_CORNER               339
 #define IDD_DIALOG_LINECONTROL          341
 #define IDD_DIALOG_CHAT                 343
+#define IDD_DIALOG1                     345
+#define IDD_COLOR_COMBINE               345
 #define IDC_IMAGE_TYPE                  1000
 #define IDC_WIDTH                       1001
 #define IDC_HEIGHT                      1002
@@ -95,6 +97,8 @@
 #define IDC_EDIT_LINECONTROL            1050
 #define IDC_LIST1                       1051
 #define IDC_LIST                        1051
+#define IDC_COMBO_IMAGE3                1055
+#define IDC_COLOR_SPACE                 1056
 #define ID_32771                        32771
 #define ID_WINDOW_DUPLICATE             32772
 #define ID_32773                        32773
@@ -260,14 +264,22 @@
 #define ID_COLOR_SPLIT_RGB              32942
 #define ID_COLOR_SPLIT_HSI              32943
 #define ID_COLOR_SPLIT_YUV              32944
+#define ID_32945                        32945
+#define ID_32946                        32946
+#define ID_32947                        32947
+#define ID_32948                        32948
+#define ID_COLOR_COMBIE_RGB             32949
+#define ID_COLOR_COMBINE_RGB            32950
+#define ID_COLOR_COMBINE_HSI            32951
+#define ID_COLOR_COMBINE_YUV            32952
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        345
-#define _APS_NEXT_COMMAND_VALUE         32945
-#define _APS_NEXT_CONTROL_VALUE         1052
+#define _APS_NEXT_RESOURCE_VALUE        347
+#define _APS_NEXT_COMMAND_VALUE         32953
+#define _APS_NEXT_CONTROL_VALUE         1057
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

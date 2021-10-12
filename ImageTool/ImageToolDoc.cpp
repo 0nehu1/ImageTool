@@ -1031,7 +1031,7 @@ void CImageToolDoc::OnHarrisCorner()
 	{
 		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 			std::vector<IppPoint> corners;
-		IppHarrisCornerDLL(img, corners, dlg.m_nHarrisTh);
+		IppHarrisCorner111(img, corners, dlg.m_nHarrisTh);
 
 		BYTE** ptr = img.GetPixels2D();
 		
@@ -1547,7 +1547,7 @@ void CImageToolDoc::OnTest()
 				//CONVERT_IMAGE_TO_DIB(imgColor, dib)
 				CONVERT_DIB_TO_BYTEIMAGE(dib, img)
 					std::vector<IppPoint> corners;
-				IppHarrisCornerDLL(img, corners, dlg.m_nHarrisTh);
+				IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
 
 
 				RGBBYTE** ptr = imgColor2.GetPixels2D();
@@ -1596,7 +1596,7 @@ void CImageToolDoc::OnTest()
 		{
 			CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 				std::vector<IppPoint> corners;
-			IppHarrisCornerDLL(img, corners, dlg.m_nHarrisTh);
+			IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
 
 			BYTE** ptr = img.GetPixels2D();
 
@@ -1656,7 +1656,7 @@ void CImageToolDoc::OnTestPoint()
 			{
 				CONVERT_DIB_TO_BYTEIMAGE(dib, img)
 					IppByteImage imgRes;
-				IppBinarizationDLL(img, imgRes, dlg.m_nThreshold);
+				IppBinarization(img, imgRes, dlg.m_nThreshold);
 				CONVERT_IMAGE_TO_DIB(imgRes, dib1)
 
 					AfxPrintInfo(_T("[이진화] 입력 영상: %s, 임계값: %d"), GetTitle(), dlg.m_nThreshold);
@@ -1667,7 +1667,7 @@ void CImageToolDoc::OnTestPoint()
 					CONVERT_DIB_TO_BYTEIMAGE(dib1, img)
 					IppIntImage imgLabel;
 				std::vector<IppLabelInfo>labels;
-				int label_cnt = IppLabelingDLL(img, imgLabel, labels);
+				int label_cnt = IppLabeling(img, imgLabel, labels);
 
 				//객체를 감싸는 사각형 그리기
 				RGBBYTE** ptr = imgColor2.GetPixels2D();

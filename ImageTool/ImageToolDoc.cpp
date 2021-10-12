@@ -1789,8 +1789,5 @@ void CImageToolDoc::OnTestPoint2()
 				}
 			}
 		}
-
-
-
 	}
 }

@@ -3,6 +3,8 @@
 #include "CClientSocket.h"
 #include "..\ImageTool\ImageToolDoc.h"
 
+
+
 void AFX_EXT_CLASS CListenSocket::OnAccept(int nErrorCode)
 {
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
@@ -54,10 +56,16 @@ void AFX_EXT_CLASS CListenSocket::SendChatDataAll(TCHAR* pszMessage)
 			{
 				// 같다
 				
-				AfxMessageBox(_T("안녕하세요"));
+			//	AfxMessageBox(_T("안녕하세요"));
 
-				CImageToolDoc* pMain = (CImageToolDoc*)AfxGetMainWnd();
+				//CImageToolDoc* pMain = (CImageToolDoc*)AfxGetMainWnd();
 				//pMain->OnTest();
+				//CImageToolDoc* pDoc = (CImageToolDoc*)GetActiveDocument();
+				//CImageToolDoc* pDoc = (CImageToolDoc*)((CMainFrame*)AfxGetMainWnd())->GetActiveDocument();
+			
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnTestPoint();
+
 			}
 		}
 	}

@@ -108,4 +108,5 @@ public:
 	afx_msg void OnContourTracing();
 	afx_msg void OnTestPoint();
 	afx_msg void OnTestPoint2();
+
 };

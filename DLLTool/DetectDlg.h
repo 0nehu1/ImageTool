@@ -4,6 +4,8 @@
 #include "..\ImageTool\IppImage\IppFeature.h"
 class DetectDlg
 {
-	void AFX_EXT_CLASS IppHarrisCorner(IppByteImage& img, std::vector<IppPoint>& corners, double th);
+	// ∫Ò∆Æ∏  ∞¥√º
+	IppDib m_Dib1;
+	void AFX_EXT_CLASS DllHarrisCorner();
 };
 

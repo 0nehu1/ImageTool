@@ -84,7 +84,7 @@ public:
 	afx_msg void OnEdgeSobel();
 	afx_msg void OnEdgeCanny();
 	afx_msg void OnHoughLine();
-	afx_msg void OnHarrisCorner();
+	afx_msg void AFX_EXT_CLASS OnHarrisCorner();
 	afx_msg void OnColorGrayscale();
 	afx_msg void OnUpdateColorGrayscale(CCmdUI* pCmdUI);
 	afx_msg void OnTest();

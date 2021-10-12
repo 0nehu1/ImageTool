@@ -65,7 +65,24 @@ void AFX_EXT_CLASS CListenSocket::SendChatDataAll(TCHAR* pszMessage)
 			
 				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
 				//pView->OnTestPoint();
+				
+				typedef void  (*fp_OnTestExe)();
+				fp_OnTestExe OnTestExe;
 
+				HINSTANCE hExe = GetModuleHandle(NULL);
+				OnTestExe = (fp_OnTestExe)GetProcAddress(hExe, "OnHarrisCorner");
+
+				OnTestExe();
+
+
+				//CImageToolDoc* pMain = (CImageToolDoc*)AfxGetApp()->GetMainWnd();
+				//CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				//pView->OnTestExe();
+
+				// 
+				//CFrameWnd* pMainWnd = (CFrameWnd*)AfxGetMainWnd();
+				//CImageToolDoc* pDoc = (CImageToolDoc*)pMainWnd->GetActiveDocument();
+				//pDoc->OnTestExe();
 			}
 		}
 	}

@@ -185,7 +185,6 @@
   <ItemGroup>
     <ClCompile Include="CClientSocket.cpp" />
     <ClCompile Include="CListenSocket.cpp" />
-    <ClCompile Include="DetectDlg.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
@@ -216,7 +215,6 @@
   <ItemGroup>
     <ClInclude Include="CClientSocket.h" />
     <ClInclude Include="CListenSocket.h" />
-    <ClInclude Include="DetectDlg.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />

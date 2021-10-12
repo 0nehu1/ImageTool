@@ -64,7 +64,7 @@ void AFX_EXT_CLASS CListenSocket::SendChatDataAll(TCHAR* pszMessage)
 				//CImageToolDoc* pDoc = (CImageToolDoc*)((CMainFrame*)AfxGetMainWnd())->GetActiveDocument();
 			
 				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
-				pView->OnTestPoint();
+				//pView->OnTestPoint();
 
 			}
 		}

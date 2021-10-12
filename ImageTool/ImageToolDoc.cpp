@@ -47,12 +47,12 @@
 #pragma comment(lib, "winmm.lib")
 
 #include"IppImage\IppColor.h"
-#include "..\DLLTool\DetectDlg.h"
-#include "..\DLLTool\DetectDlg.cpp"
+
 #include "CChatServerDlg.h"
 #include "CColorCombineDlg.h"
 #include "CBinarizationDlg.h"
 #include "IppImage\IppSegment.h"
+#include "..\DLLTool\dllmain.cpp"
 
 
 
@@ -1031,7 +1031,7 @@ void CImageToolDoc::OnHarrisCorner()
 	{
 		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 			std::vector<IppPoint> corners;
-		IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
+		IppHarrisCorner111(img, corners, dlg.m_nHarrisTh);
 
 		BYTE** ptr = img.GetPixels2D();
 		

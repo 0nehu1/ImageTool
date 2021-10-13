@@ -1,4 +1,3 @@
-
 #include "stdafx.h"
 #include "IppDib.h"
 
@@ -69,7 +68,7 @@ BOOL IppDib::CreateGrayBitmap(LONG nWidth, LONG nHeight)
 
 	// 픽셀 데이터 초기화
 	BYTE* pData = GetDIBitsAddr();
-	memset(pData, 255, dwSizeImage);
+	memset(pData, 0, dwSizeImage);
 
 	return TRUE;
 }
@@ -107,7 +106,7 @@ BOOL IppDib::CreateRgbBitmap(LONG nWidth, LONG nHeight)
 
 	// 픽셀 데이터 초기화
 	BYTE* pData = GetDIBitsAddr();
-	memset(pData, 255, dwSizeImage);
+	memset(pData, 0, dwSizeImage);
 
 	return TRUE;
 }
@@ -238,7 +237,7 @@ BOOL IppDib::SaveBMP(const char* filename)
 	return TRUE;
 }
 
-void IppDib::Draw(HDC hdc, int dx, int dy) // 비트맵을 원본크기 그대로 출력한다.
+void IppDib::Draw(HDC hdc, int dx, int dy)
 {
 	if (m_pDib == NULL)
 		return;
@@ -247,9 +246,9 @@ void IppDib::Draw(HDC hdc, int dx, int dy) // 비트맵을 원본크기 그대로 출력한다.
 	LPVOID lpBits = (LPVOID)GetDIBitsAddr();
 
 	::SetDIBitsToDevice(hdc,	// hdc
-		dx,					// DestX 비트맵을 출력할 좌표 X
-		dy,					// DestY 비트맵을 출력할 좌표 Y
-		m_nWidth,			// nSrcWidth 
+		dx,					// DestX
+		dy,					// DestY
+		m_nWidth,			// nSrcWidth
 		m_nHeight,			// nSrcHeight
 		0,					// SrcX
 		0,					// SrcY
@@ -260,13 +259,13 @@ void IppDib::Draw(HDC hdc, int dx, int dy) // 비트맵을 원본크기 그대로 출력한다.
 		DIB_RGB_COLORS);	// wUsage
 }
 
-void IppDib::Draw(HDC hdc, int dx, int dy, int dw, int dh, DWORD dwRop) // 비트맵 원본 전체를 확대 또는 축소하여 출력할 수 있다.
+void IppDib::Draw(HDC hdc, int dx, int dy, int dw, int dh, DWORD dwRop)
 {
 	Draw(hdc, dx, dy, dw, dh, 0, 0, m_nWidth, m_nHeight, dwRop);
 }
 
 void IppDib::Draw(HDC hdc, int dx, int dy, int dw, int dh,
-	int sx, int sy, int sw, int sh, DWORD dwRop)				// 원본 비트맵의 부분 영역을 출력할 수 있는 기능
+	int sx, int sy, int sw, int sh, DWORD dwRop)
 {
 	if (m_pDib == NULL)
 		return;
@@ -280,10 +279,10 @@ void IppDib::Draw(HDC hdc, int dx, int dy, int dw, int dh,
 		dy,					// YDest
 		dw,					// nDestWidth
 		dh,					// nDestHeight
-		sx,					// XSrc	원본 비트맵에서 화면에 출력할 사각형 영역의 좌상단좌표 X
-		sy,					// YSrc 원본 비트맵에서 화면에 출력할 사각형 영역의 좌상단좌표 Y
-		sw,					// nSrcWidth 출력할 사각형의 가로 길이
-		sh,					// nSrcHeight 출력할 사각형의 세로 길이
+		sx,					// XSrc
+		sy,					// YSrc
+		sw,					// nSrcWidth
+		sh,					// nSrcHeight
 		lpDIBBits,			// lpBits
 		lpbi,				// lpBitsInfo
 		DIB_RGB_COLORS,		// wUsage
@@ -316,7 +315,7 @@ BOOL IppDib::CopyToClipboard()
 	return TRUE;
 }
 
-BOOL IppDib::PasteFromClipboard() // 클립보드 지원 (복사 및 붙여넣기)
+BOOL IppDib::PasteFromClipboard()
 {
 	// CF_DIB 타입이 아니면 종료한다.
 	if (!::IsClipboardFormatAvailable(CF_DIB))

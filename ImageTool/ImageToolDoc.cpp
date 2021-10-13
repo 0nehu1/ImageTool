@@ -134,6 +134,8 @@ CImageToolDoc::CImageToolDoc() noexcept
 
 }
 
+CImageToolDoc theDoc;
+
 CImageToolDoc::~CImageToolDoc()
 {
 }
@@ -269,12 +271,12 @@ BOOL CImageToolDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	// TODO:  여기에 특수화된 작성 코드를 추가합니다.
 
-	BOOL res = m_Dib.Load(CT2A(lpszPathName));
-		if (res)
-			AfxPrintInfo(_T("[파일 열기] 파일 경로: %s, 가로 크기: %d픽셀, 세로 크기: %d픽셀, 색상수: %d"),
-				lpszPathName, m_Dib.GetWidth(), m_Dib.GetHeight(), 0x01 << m_Dib.GetBitCount());
+//	BOOL res = m_Dib.Load(CT2A(lpszPathName));
+	//	if (res)
+	//		AfxPrintInfo(_T("[파일 열기] 파일 경로: %s, 가로 크기: %d픽셀, 세로 크기: %d픽셀, 색상수: %d"),
+		//		lpszPathName, m_Dib.GetWidth(), m_Dib.GetHeight(), 0x01 << m_Dib.GetBitCount());
 
-	return res;
+	return m_Dib.Load(CT2A(lpszPathName));
 }
 
 
@@ -1541,13 +1543,12 @@ void CImageToolDoc::OnTest()
 			CHarrisCornerDlg dlg;
 
 			HDC h_dc = ::GetDC(NULL);
-			if (dlg.DoModal() == IDOK)
-			{
+			
 				//imgColor.Convert(imgGray);
 				//CONVERT_IMAGE_TO_DIB(imgColor, dib)
 				CONVERT_DIB_TO_BYTEIMAGE(dib, img)
 					std::vector<IppPoint> corners;
-				IppHarrisCornerDLL(img, corners, dlg.m_nHarrisTh);
+				IppHarrisCornerDLL(img, corners, 20);
 
 
 				RGBBYTE** ptr = imgColor2.GetPixels2D();
@@ -1583,7 +1584,7 @@ void CImageToolDoc::OnTest()
 					AfxNewBitmap(dib);
 				}
 
-			}
+			
 		}
 	}
 
@@ -1592,11 +1593,10 @@ void CImageToolDoc::OnTest()
 		CHarrisCornerDlg dlg;
 
 		HDC h_dc = ::GetDC(NULL);
-		if (dlg.DoModal() == IDOK)
-		{
+		
 			CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 				std::vector<IppPoint> corners;
-			IppHarrisCornerDLL(img, corners, dlg.m_nHarrisTh);
+			IppHarrisCornerDLL(img, corners,20);
 
 			BYTE** ptr = img.GetPixels2D();
 
@@ -1624,11 +1624,11 @@ void CImageToolDoc::OnTest()
 			{
 				CONVERT_IMAGE_TO_DIB(img, dib)
 
-					AfxPrintInfo(_T("[해리스 코너 검출] 입력 영상: %s, Threshold: %d, 검출된 코너 갯수: %d"),
+					AfxPrintInfo(_T("[노이즈 검출] 입력 영상: %s, Threshold: %d, 검출된 노이즈 갯수: %d"),
 						GetTitle(), dlg.m_nHarrisTh, corners.size());
 				AfxNewBitmap(dib);
 			}
-		}
+		
 	}
 }
 
@@ -1700,7 +1700,7 @@ void CImageToolDoc::OnTestPoint()
 		{
 			CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 				IppByteImage imgRes;
-			IppBinarization(img, imgRes, dlg.m_nThreshold);
+			IppBinarizationDLL(img, imgRes, dlg.m_nThreshold);
 			CONVERT_IMAGE_TO_DIB(imgRes, dib)
 
 				AfxPrintInfo(_T("[이진화] 입력 영상: %s, 임계값: %d"), GetTitle(), dlg.m_nThreshold);
@@ -1710,7 +1710,7 @@ void CImageToolDoc::OnTestPoint()
 			{		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 				IppIntImage imgLabel;
 			std::vector<IppLabelInfo>labels;
-			int label_cnt = IppLabeling(img, imgLabel, labels);
+			int label_cnt = IppLabelingDLL(img, imgLabel, labels);
 
 			//객체를 감싸는 사각형 그리기
 			BYTE** ptr = img.GetPixels2D();

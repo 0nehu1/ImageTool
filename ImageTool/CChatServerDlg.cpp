@@ -6,7 +6,10 @@
 #include "CChatServerDlg.h"
 #include "afxdialogex.h"
 #include "framework.h"
-#include "..\DLLTool\CClientSocket.h"
+
+#include <afxodlgs.h>
+#include "ImageToolView.h"
+#include "CClientSocket.h"
 
 
 // CChatServerDlg 대화 상자
@@ -18,6 +21,12 @@ CChatServerDlg::CChatServerDlg(CWnd* pParent /*=nullptr*/)
 {
 
 }
+CImageToolDoc* theDoc1;
+CChatServerDlg::CChatServerDlg(CImageToolDoc* pDoc)
+	:CDialog(IDD_DIALOG_CHAT, NULL)
+{
+	m_pDoc = pDoc;
+}
 
 
 
@@ -27,6 +36,8 @@ void CChatServerDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST1, m_List);
+
+	
 }
 
 
@@ -37,6 +48,11 @@ END_MESSAGE_MAP()
 
 // CChatServerDlg 메시지 처리기
 
+
+void CChatServerDlg::SendData()
+{
+	
+}
 
 BOOL CChatServerDlg::OnInitDialog()
 {
@@ -71,6 +87,7 @@ void CChatServerDlg::OnDestroy()
 
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 	POSITION pos;
+
 	pos = m_ListenSocket.m_ptrClientSocketList.GetHeadPosition();
 	CClientSocket* pClient = NULL;
 
@@ -80,6 +97,7 @@ void CChatServerDlg::OnDestroy()
 			m_ListenSocket.m_ptrClientSocketList.GetNext(pos);
 		if (pClient != NULL)
 		{
+
 			pClient->ShutDown();
 			pClient->Close();
 

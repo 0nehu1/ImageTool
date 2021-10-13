@@ -8,7 +8,7 @@
 
 class CImageToolDoc : public CDocument
 {
-protected: // serialization에서만 만들어집니다.
+public: // serialization에서만 만들어집니다.
 	CImageToolDoc() noexcept;
 	DECLARE_DYNCREATE(CImageToolDoc)
 
@@ -38,7 +38,7 @@ public:
 protected:
 
 // 생성된 메시지 맵 함수
-protected:
+public:
 	DECLARE_MESSAGE_MAP()
 
 #ifdef SHARED_HANDLERS
@@ -108,5 +108,7 @@ public:
 	afx_msg void OnContourTracing();
 	afx_msg void OnTestPoint();
 	afx_msg void OnTestPoint2();
-
+	
 };
+
+extern CImageToolDoc theDoc;

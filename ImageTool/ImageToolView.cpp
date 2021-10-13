@@ -225,6 +225,7 @@ CImageToolDoc* CImageToolView::GetDocument() const // 디버그되지 않은 버
 {
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CImageToolDoc)));
 	return (CImageToolDoc*)m_pDocument;
+	
 }
 #endif //_DEBUG
 
@@ -324,9 +325,6 @@ void CImageToolView::OnPaint()
 					   // 그리기 메시지에 대해서는 CScrollView::OnPaint()을(를) 호출하지 마십시오.
 
 	
-
-
-
 	CImageToolDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
@@ -334,13 +332,29 @@ void CImageToolView::OnPaint()
 
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 
+
 	if (pDoc->m_Dib.IsValid())
 	{
+		//pDoc->m_Dib.Draw(dc.m_hDC);
+
 		int w = pDoc->m_Dib.GetWidth();
 		int h = pDoc->m_Dib.GetHeight();
 		pDoc->m_Dib.Draw(dc.m_hDC, 0, 0, w * m_nZoom, h * m_nZoom);
 	}
 
+
+	
+
+	PAINTSTRUCT ps;
+
+	// BeginPaint 함수의 역할은 무효화 영역(Invalid Region)만을 그릴 수 있는 DC와
+	// 미리 선언한 PAINTSTRUCT 구조체 변수에 무효화 영역(Invalid Region)의 정보를
+	// 담아 주는 역할을 합니다.
+	// BeginPaint 함수의 호출을 시작으로 그리기 작업이 끝나면 EndPaint 함수를 호출하여
+	// 그리기 작업이 끝났음을 알려줍니다.
+	
+
+	// ..... 무효화 영역(Invalid Region)을 다시 그려주는 작업 ....
 
 	CPen pen, * oldpen;
 	switch (m_nPenMode)

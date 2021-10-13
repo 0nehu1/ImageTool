@@ -189,6 +189,7 @@
     <ClInclude Include="CBrightnessContrastDlg.h" />
     <ClInclude Include="CCannyEdgeDlg.h" />
     <ClInclude Include="CChatServerDlg.h" />
+    <ClInclude Include="CClientSocket.h" />
     <ClInclude Include="CColorCombineDlg.h" />
     <ClInclude Include="CDiffusionDlg.h" />
     <ClInclude Include="CFileNewDlg.h" />
@@ -198,6 +199,7 @@
     <ClInclude Include="CHarrisCornerDlg.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="CHistogramDlg.h" />
+    <ClInclude Include="CListenSocket.h" />
     <ClInclude Include="CResizeDlg.h" />
     <ClInclude Include="CRotateDlg.h" />
     <ClInclude Include="CTranslateDlg.h" />
@@ -231,6 +233,7 @@
     <ClCompile Include="CBrightnessContrastDlg.cpp" />
     <ClCompile Include="CCannyEdgeDlg.cpp" />
     <ClCompile Include="CChatServerDlg.cpp" />
+    <ClCompile Include="CClientSocket.cpp" />
     <ClCompile Include="CColorCombineDlg.cpp" />
     <ClCompile Include="CDiffusionDlg.cpp" />
     <ClCompile Include="CFileNewDlg.cpp" />
@@ -240,6 +243,7 @@
     <ClCompile Include="CHarrisCornerDlg.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="CHistogramDlg.cpp" />
+    <ClCompile Include="CListenSocket.cpp" />
     <ClCompile Include="CResizeDlg.cpp" />
     <ClCompile Include="CRotateDlg.cpp" />
     <ClCompile Include="CTranslateDlg.cpp" />

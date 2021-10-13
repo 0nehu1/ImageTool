@@ -14,8 +14,24 @@
 #include "..\ImageTool\IppImage\IppFeature.h"
 #include "..\ImageTool\IppImage\IppColor.h"
 #include "..\ImageTool\IppImage\IppSegment.h"
+#include "..\ImageTool\ImageToolDoc.h"
 
+//#include "..\ImageTool\IppImage\IppConvert.h"
 static AFX_EXTENSION_MODULE DLLToolDLL = { false, nullptr };
+
+#define CONVERT_DIB_TO_RGBIMAGE(m_Dib,img)\
+   IppRgbImage img;\
+   IppDibToImage(m_Dib,img);
+#define SHOW_SPECTRUM_PHASE_IMAGE
+
+#define CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)\
+IppByteImage img;\
+IppDibToImage(m_Dib,img);
+
+#define CONVERT_IMAGE_TO_DIB(img, dib)\
+IppDib dib;\
+IppImageToDib(img,dib);
+
 
 extern "C" int APIENTRY
 DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
@@ -352,3 +368,19 @@ extern "C" __declspec(dllexport) int IppLabelingDLL(IppByteImage& imgSrc, IppInt
 
 	return (label_cnt - 1);
 }
+CImageToolDoc* m_pDocument;
+
+
+extern "C" __declspec(dllexport)void Test111()
+{
+	AfxMessageBox(_T("Test"));
+
+	//CImageToolDoc* pDocument = (CImageToolDoc*)m_pDocument;
+	//CImageToolDoc* pMain = (CImageToolDoc*)AfxGetMainWnd();
+	
+	
+	//ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CImageToolDoc)));
+	//(CImageToolDoc*)m_pDocument;
+	//m_pDocument->OnTestPoint();
+}
+

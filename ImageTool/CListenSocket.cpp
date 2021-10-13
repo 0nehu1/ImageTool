@@ -62,13 +62,24 @@ void CListenSocket::SendChatDataAll(TCHAR* pszMessage)
 		if (pClient != NULL)
 		{
 			pClient->Send(pszMessage, lstrlen(pszMessage) * 2);
-			if (0 == _tcscmp(pszMessage, _T(".detect")))
+			if (0 == _tcscmp(pszMessage, _T(".noise")))
 			{
-				//메인프레임을 통해서 CTestView 를 받는다.
 				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
-			   //도큐먼트의 m_strText안에 현재 대화상자의 m_strText를 연결시킨다.
-		       pView->OnTest();
-			   //데이타를 다이얼로그 리소스로 전송
+				pView->OnTest();
+			  
+			}
+
+			else if (0 == _tcscmp(pszMessage, _T(".point1")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnTestPoint();
+
+			}
+			else if (0 == _tcscmp(pszMessage, _T(".point2")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnTestPoint2();
+
 			}
 		}
 	}

@@ -14,7 +14,8 @@
 #include "..\ImageTool\IppImage\IppFeature.h"
 #include "..\ImageTool\IppImage\IppColor.h"
 #include "..\ImageTool\IppImage\IppSegment.h"
-#include "..\ImageTool\ImageToolDoc.h"
+//#include "..\ImageTool\ImageToolDoc.h"
+//#include "..\ImageTool\IppImage\IppFilter.h"
 
 //#include "..\ImageTool\IppImage\IppConvert.h"
 static AFX_EXTENSION_MODULE DLLToolDLL = { false, nullptr };
@@ -32,6 +33,14 @@ IppDibToImage(m_Dib,img);
 IppDib dib;\
 IppImageToDib(img,dib);
 
+const double PI = 3.14159265358979323846;
+const float  PI_F = 3.14159265358979323846f;
+
+#define CHECK_WEAK_EDGE(x, y) \
+	if (pEdge[y][x] == WEAK_EDGE) { \
+		pEdge[y][x] = STRONG_EDGE; \
+		strong_edges.push_back(IppPoint(x, y)); \
+	}
 
 extern "C" int APIENTRY
 DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
@@ -368,8 +377,316 @@ extern "C" __declspec(dllexport) int IppLabelingDLL(IppByteImage& imgSrc, IppInt
 
 	return (label_cnt - 1);
 }
-CImageToolDoc* m_pDocument;
 
+
+
+
+
+extern "C" __declspec(dllexport) void IppFilterGaussianDLL(IppByteImage& imgSrc, IppFloatImage& imgDst, float sigma)
+{
+	register int i, j, k, x;
+
+	int w = imgSrc.GetWidth();
+	int h = imgSrc.GetHeight();
+
+	imgDst.CreateImage(w, h);
+
+	BYTE** pSrc = imgSrc.GetPixels2D();
+	float** pDst = imgDst.GetPixels2D();
+
+	//-------------------------------------------------------------------------
+	// 1차원 가우시안 마스크 & 실수 연산을 위한 버퍼 이미지 생성
+	//-------------------------------------------------------------------------
+
+	int dim = static_cast<int>(2 * 4 * sigma + 1.0);
+	if (dim < 3) dim = 3;
+	if (dim % 2 == 0) dim++;
+	int dim2 = dim / 2;
+
+	IppFloatImage imgMask(dim, 1);
+	float* pMask = imgMask.GetPixels();
+
+	for (i = 0; i < dim; i++)
+	{
+		x = i - dim2;
+		pMask[i] = exp(-(x * x) / (2 * sigma * sigma)) / (sqrt(2 * PI_F) * sigma);
+	}
+
+	IppFloatImage imgBuf(w, h);
+	float** pBuf = imgBuf.GetPixels2D();
+
+	//-------------------------------------------------------------------------
+	// 세로 방향 마스크 연산
+	//-------------------------------------------------------------------------
+
+	float sum1, sum2;
+	for (i = 0; i < w; i++)
+		for (j = 0; j < h; j++)
+		{
+			sum1 = sum2 = 0.f;
+
+			for (k = 0; k < dim; k++)
+			{
+				x = k - dim2 + j;
+
+				if (x >= 0 && x < h)
+				{
+					sum1 += pMask[k];
+					sum2 += (pMask[k] * pSrc[x][i]);
+				}
+			}
+
+			pBuf[j][i] = sum2 / sum1;
+		}
+
+	//-------------------------------------------------------------------------
+	// 가로 방향 마스크 연산
+	//-------------------------------------------------------------------------
+
+	for (j = 0; j < h; j++)
+		for (i = 0; i < w; i++)
+		{
+			sum1 = sum2 = 0.f;
+
+			for (k = 0; k < dim; k++)
+			{
+				x = k - dim2 + i;
+
+				if (x >= 0 && x < w)
+				{
+					sum1 += pMask[k];
+					sum2 += (pMask[k] * pBuf[j][x]);
+				}
+			}
+
+			pDst[j][i] = sum2 / sum1;
+		}
+}
+extern "C" __declspec(dllexport) void IppEdgeCannyDLL(IppByteImage& imgSrc, IppByteImage& imgEdge, float sigma, float th_low, float th_high)
+{
+	register int i, j;
+
+	int w = imgSrc.GetWidth();
+	int h = imgSrc.GetHeight();
+
+	// 1. 가우시안 필터링
+
+	IppFloatImage imgGaussian(w, h);
+	IppFilterGaussianDLL(imgSrc, imgGaussian, sigma);
+
+	// 2. 그래디언트 구하기 (크기 & 방향)
+
+	IppFloatImage imgGx(w, h); // gradient of x
+	IppFloatImage imgGy(w, h); // gradient of y
+	IppFloatImage imgMag(w, h); // magnitude of gradient
+
+	float** pGauss = imgGaussian.GetPixels2D();
+	float** pGx = imgGx.GetPixels2D();
+	float** pGy = imgGy.GetPixels2D();
+	float** pMag = imgMag.GetPixels2D();
+
+	for (j = 1; j < h - 1; j++)
+		for (i = 1; i < w - 1; i++)
+		{
+			pGx[j][i] = -pGauss[j - 1][i - 1] - 2 * pGauss[j][i - 1] - pGauss[j + 1][i - 1]
+				+ pGauss[j - 1][i + 1] + 2 * pGauss[j][i + 1] + pGauss[j + 1][i + 1];
+			pGy[j][i] = -pGauss[j - 1][i - 1] - 2 * pGauss[j - 1][i] - pGauss[j - 1][i + 1]
+				+ pGauss[j + 1][i - 1] + 2 * pGauss[j + 1][i] + pGauss[j + 1][i + 1];
+
+			pMag[j][i] = sqrt(pGx[j][i] * pGx[j][i] + pGy[j][i] * pGy[j][i]);
+		}
+
+	// 3. 비최대 억제
+	// 국지적 최대를 구함과 동시에 이중 임계값을 적용하여 strong edge와 weak edge를 구한다.
+
+	imgEdge.CreateImage(w, h);
+	BYTE** pEdge = imgEdge.GetPixels2D();
+
+	enum DISTRICT { AREA0 = 0, AREA45, AREA90, AREA135, NOAREA };
+
+	const BYTE STRONG_EDGE = 255;
+	const BYTE WEAK_EDGE = 128;
+
+	std::vector<IppPoint> strong_edges;
+
+	float ang;
+	int district;
+	bool local_max;
+	for (j = 1; j < h - 1; j++)
+		for (i = 1; i < w - 1; i++)
+		{
+			// 그래디언트 크기가 th_low보다 큰 픽셀에 대해서만 국지적 최대 검사.
+			// 국지적 최대인 픽셀에 대해서만 강한 엣지 또는 약한 엣지로 설정.
+			if (pMag[j][i] > th_low)
+			{
+				// 그래디언트 방향 계산 (4개 구역)
+				if (pGx[j][i] != 0.f)
+				{
+					ang = atan2(pGy[j][i], pGx[j][i]) * 180 / PI_F;
+					if (((ang >= -22.5f) && (ang < 22.5f)) || (ang >= 157.5f) || (ang < -157.5f))
+						district = AREA0;
+					else if (((ang >= 22.5f) && (ang < 67.5f)) || ((ang >= -157.5f) && (ang < -112.5f)))
+						district = AREA45;
+					else if (((ang >= 67.5) && (ang < 112.5)) || ((ang >= -112.5) && (ang < -67.5)))
+						district = AREA90;
+					else
+						district = AREA135;
+				}
+				else
+					district = AREA90;
+
+				// 국지적 최대 검사
+				local_max = false;
+				switch (district)
+				{
+				case AREA0:
+					if ((pMag[j][i] >= pMag[j][i - 1]) && (pMag[j][i] > pMag[j][i + 1]))
+						local_max = true;
+					break;
+				case AREA45:
+					if ((pMag[j][i] >= pMag[j - 1][i - 1]) && (pMag[j][i] > pMag[j + 1][i + 1]))
+						local_max = true;
+					break;
+				case AREA90:
+					if ((pMag[j][i] >= pMag[j - 1][i]) && (pMag[j][i] > pMag[j + 1][i]))
+						local_max = true;
+					break;
+				case AREA135:
+				default:
+					if ((pMag[j][i] >= pMag[j - 1][i + 1]) && (pMag[j][i] > pMag[j + 1][i - 1]))
+						local_max = true;
+					break;
+				}
+
+				// 강한 엣지와 약한 엣지 구분.
+				if (local_max)
+				{
+					if (pMag[j][i] > th_high)
+					{
+						pEdge[j][i] = STRONG_EDGE;
+						strong_edges.push_back(IppPoint(i, j));
+					}
+					else
+						pEdge[j][i] = WEAK_EDGE;
+				}
+			}
+		}
+
+	// 4. 히스테리시스 엣지 트래킹
+
+	while (!strong_edges.empty())
+	{
+		IppPoint p = strong_edges.back();
+		strong_edges.pop_back();
+
+		int x = p.x, y = p.y;
+
+		// 강한 엣지 주변의 약한 엣지는 최종 엣지(강한 엣지)로 설정
+		CHECK_WEAK_EDGE(x + 1, y)
+			CHECK_WEAK_EDGE(x + 1, y + 1)
+			CHECK_WEAK_EDGE(x, y + 1)
+			CHECK_WEAK_EDGE(x - 1, y + 1)
+			CHECK_WEAK_EDGE(x - 1, y)
+			CHECK_WEAK_EDGE(x - 1, y - 1)
+			CHECK_WEAK_EDGE(x, y - 1)
+			CHECK_WEAK_EDGE(x + 1, y - 1)
+	}
+
+	for (j = 0; j < h; j++)
+		for (i = 0; i < w; i++)
+		{
+			// 끝까지 약한 엣지로 남아있는 픽셀은 모두 엣지가 아닌 것으로 판단.
+			if (pEdge[j][i] == WEAK_EDGE) pEdge[j][i] = 0;
+		}
+}
+
+
+extern "C" __declspec(dllexport) void IppDrawLineDLL1(IppByteImage & img, int x1, int y1, int x2, int y2, BYTE c)
+{
+	int w = img.GetWidth();
+	int h = img.GetHeight();
+	BYTE** ptr = img.GetPixels2D();
+
+	// 브레제남 알고리즘(Bresenham's Algorithm)에 의한 직선 그리기
+
+	int dx, dy, inc_x, inc_y, fraction;
+
+	dx = x2 - x1;
+	inc_x = (dx > 0) ? 1 : -1;
+	dx = abs(dx) << 1;
+
+	dy = y2 - y1;
+	inc_y = (dy > 0) ? 1 : -1;
+	dy = abs(dy) << 1;
+
+	if (x1 >= 0 && x1 < w && y1 >= 0 && y1 < h)
+		ptr[y1][x1] = c;
+
+	if (dx >= dy)
+	{
+		fraction = dy - (dx >> 1);
+
+		while (x1 != x2)
+		{
+			if ((fraction >= 0) && (fraction || (inc_x > 0)))
+			{
+				fraction -= dx;
+				y1 += inc_y;
+			}
+
+			fraction += dy;
+			x1 += inc_x;
+
+			if (x1 >= 0 && x1 < w && y1 >= 0 && y1 < h)
+				ptr[y1][x1] = c;
+		}
+	}
+	else
+	{
+		fraction = dx - (dy >> 1);
+
+		while (y1 != y2)
+		{
+			if ((fraction >= 0) && (fraction || (inc_y > 0)))
+			{
+				fraction -= dy;
+				x1 += inc_x;
+			}
+
+			fraction += dx;
+			y1 += inc_y;
+
+			if (x1 >= 0 && x1 < w && y1 >= 0 && y1 < h)
+				ptr[y1][x1] = c;
+		}
+	}
+}
+
+extern "C" __declspec(dllexport) void IppDrawLineDLL(IppByteImage& img, IppLineParam line, BYTE c)
+{
+	int w = img.GetWidth();
+	int h = img.GetHeight();
+
+	// (rho, ang) 파라미터를 이용하여 직선의 시작 좌표와 끝 좌표를 계산
+
+	int x1, y1, x2, y2;
+	if ((line.ang >= 0 && line.ang < PI / 4) || (line.ang >= 3 * PI / 4 && line.ang < PI))
+	{
+		x1 = 0;
+		y1 = static_cast<int>(floor(line.rho / cos(line.ang) + 0.5));
+		x2 = w - 1;
+		y2 = static_cast<int>(floor((line.rho - x2 * sin(line.ang)) / cos(line.ang) + 0.5));
+	}
+	else
+	{
+		y1 = 0;
+		x1 = static_cast<int>(floor(line.rho / sin(line.ang) + 0.5));
+		y2 = h - 1;
+		x2 = static_cast<int>(floor((line.rho - y2 * cos(line.ang)) / sin(line.ang) + 0.5));
+	}
+
+	IppDrawLineDLL1(img, x1, y1, x2, y2, c);
+}
 
 extern "C" __declspec(dllexport)void Test111()
 {
@@ -377,10 +694,9 @@ extern "C" __declspec(dllexport)void Test111()
 
 	//CImageToolDoc* pDocument = (CImageToolDoc*)m_pDocument;
 	//CImageToolDoc* pMain = (CImageToolDoc*)AfxGetMainWnd();
-	
-	
+
+
 	//ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CImageToolDoc)));
 	//(CImageToolDoc*)m_pDocument;
 	//m_pDocument->OnTestPoint();
 }
-

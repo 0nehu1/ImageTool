@@ -153,8 +153,8 @@ BOOL CImageToolApp::InitInstance()
 	ParseCommandLine(cmdInfo);
 
 	// 프로그램 시작 시 빈 창을 띄우지 않습니다.
-	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew);
-	cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
+	//if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew);
+	//cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
 
 	// DDE Execute 열기를 활성화합니다.
 	EnableShellOpen();

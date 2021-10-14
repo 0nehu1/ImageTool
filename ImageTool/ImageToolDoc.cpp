@@ -123,6 +123,7 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_CONTOUR_TRACING, &CImageToolDoc::OnContourTracing)
 	ON_COMMAND(ID_TEST_POINT, &CImageToolDoc::OnTestPoint)
 	ON_COMMAND(ID_TEST_POINT2, &CImageToolDoc::OnTestPoint2)
+	ON_COMMAND(ID_PAINTON, &CImageToolDoc::OnPainton)
 END_MESSAGE_MAP()
 
 
@@ -525,7 +526,7 @@ void CImageToolDoc::OnFilterGaussian()
 	{
 		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 		IppFloatImage imgDst;
-		IppFilterGaussian(imgSrc, imgDst, dlg.m_fSigma);
+		IppFilterGaussianDLL(imgSrc, imgDst, dlg.m_fSigma);
 		CONVERT_IMAGE_TO_DIB(imgDst, dib)
 
 		AfxPrintInfo(_T("[가우시안 필터] 입력 영상: %s, sigma: %4.2f"), GetTitle(),dlg.m_fSigma);
@@ -1013,7 +1014,7 @@ void CImageToolDoc::OnHoughLine()
 	// 최대 10개의 직선만 화면에 그려줌.
 	int cnt = __min(10, lines.size());
 	for (int i = 0; i < cnt; i++)
-		IppDrawLine(img, lines[i], 255);
+		IppDrawLineDLL(img, lines[i], 255);
 
 	CONVERT_IMAGE_TO_DIB(img, dib)
 
@@ -1462,7 +1463,7 @@ void CImageToolDoc::OnSegmentBinarization()
 	{
 		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 			IppByteImage imgRes;
-		IppBinarization(img, imgRes, dlg.m_nThreshold);
+		IppBinarizationDLL(img, imgRes, dlg.m_nThreshold);
 		CONVERT_IMAGE_TO_DIB(imgRes, dib)
 
 			AfxPrintInfo(_T("[이진화] 입력 영상: %s, 임계값: %d"), GetTitle(), dlg.m_nThreshold);
@@ -1758,7 +1759,7 @@ void CImageToolDoc::OnTestPoint2()
 			{
 				CONVERT_DIB_TO_BYTEIMAGE(dib, img)
 					IppByteImage imgEdge;
-				IppEdgeCanny(img, imgEdge, dlg.m_fSigma, dlg.m_fLowTh, dlg.m_fHighTh);
+				IppEdgeCannyDLL(img, imgEdge, dlg.m_fSigma, dlg.m_fLowTh, dlg.m_fHighTh);
 				CONVERT_IMAGE_TO_DIB(imgEdge, dib1);
 
 				AfxNewBitmap(dib1);
@@ -1768,7 +1769,7 @@ void CImageToolDoc::OnTestPoint2()
 					CONVERT_DIB_TO_BYTEIMAGE(dib1, img)
 						IppIntImage imgLabel;
 					std::vector<IppLabelInfo>labels;
-					int label_cnt = IppLabeling(img, imgLabel, labels);
+					int label_cnt = IppLabelingDLL(img, imgLabel, labels);
 
 					//객체를 감싸는 사각형 그리기
 					RGBBYTE** ptr = imgColor2.GetPixels2D();
@@ -1790,4 +1791,18 @@ void CImageToolDoc::OnTestPoint2()
 			}
 		}
 	}
+}
+
+
+void CImageToolDoc::OnPainton()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	
+	
+
+
+	
+	
+
 }

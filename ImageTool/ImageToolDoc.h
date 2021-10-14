@@ -109,6 +109,7 @@ public:
 	afx_msg void OnTestPoint();
 	afx_msg void OnTestPoint2();
 	
+	afx_msg void OnPainton();
 };
 
 extern CImageToolDoc theDoc;

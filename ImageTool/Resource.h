@@ -288,13 +288,15 @@
 #define ID_TEST_POINT                   32962
 #define ID_32963                        32963
 #define ID_TEST_POINT2                  32964
+#define ID_32965                        32965
+#define ID_PAINTON                      32966
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        349
-#define _APS_NEXT_COMMAND_VALUE         32965
+#define _APS_NEXT_COMMAND_VALUE         32967
 #define _APS_NEXT_CONTROL_VALUE         1060
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

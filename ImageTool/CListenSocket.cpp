@@ -116,6 +116,36 @@ void CListenSocket::SendChatDataAll(TCHAR* pszMessage)
 				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
 				pView->OnColorGrayscale();
 			}
+			else if (0 == _tcscmp(pszMessage, _T(".mean")) || 0 == _tcscmp(pszMessage, _T(".평균값")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnFilterMean();
+			}
+			else if (0 == _tcscmp(pszMessage, _T(".weight")) || 0 == _tcscmp(pszMessage, _T(".가중평균값")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnFilterWeightedMean();
+			}
+			else if (0 == _tcscmp(pszMessage, _T(".gaussian")) || 0 == _tcscmp(pszMessage, _T(".가우시안")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnFilterGaussian();
+			}
+			else if (0 == _tcscmp(pszMessage, _T(".laplacian")) || 0 == _tcscmp(pszMessage, _T(".라플라시안")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnFilterLaplacian();
+			}
+			else if (0 == _tcscmp(pszMessage, _T(".unsharp")) || 0 == _tcscmp(pszMessage, _T(".언샤프")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnFilterUnsharpMask();
+			}
+			else if (0 == _tcscmp(pszMessage, _T(".highboost")) || 0 == _tcscmp(pszMessage, _T(".하이부스트")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnFilterHighboost();
+			}
 		}
 	}
 }

@@ -290,13 +290,31 @@
 #define ID_TEST_POINT2                  32964
 #define ID_32965                        32965
 #define ID_PAINTON                      32966
+#define ID_32967                        32967
+#define ID_32968                        32968
+#define ID_32969                        32969
+#define ID_32970                        32970
+#define ID_32971                        32971
+#define ID_MORPHOLOGY_EROSION           32972
+#define ID_MORPHOLOGY_DILATION          32973
+#define ID_MORPHOLOGY_OPENING           32974
+#define ID_MORPHOLOGY_CLOSING           32975
+#define ID_32976                        32976
+#define ID_32977                        32977
+#define ID_32978                        32978
+#define ID_32979                        32979
+#define ID_32980                        32980
+#define ID_GRAYMORPH_EROSION            32981
+#define ID_GRAYMORPH_DILATION           32982
+#define ID_GRAYMORPH_OPENING            32983
+#define ID_GRAYMORPH_CLOSING            32984
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        349
-#define _APS_NEXT_COMMAND_VALUE         32967
+#define _APS_NEXT_COMMAND_VALUE         32985
 #define _APS_NEXT_CONTROL_VALUE         1060
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

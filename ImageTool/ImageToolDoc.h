@@ -110,6 +110,14 @@ public:
 	afx_msg void OnTestPoint2();
 	
 	
+	afx_msg void OnMorphologyErosion();
+	afx_msg void OnMorphologyDilation();
+	afx_msg void OnMorphologyOpening();
+	afx_msg void OnMorphologyClosing();
+	afx_msg void OnGraymorphErosion();
+	afx_msg void OnGraymorphDilation();
+	afx_msg void OnGraymorphOpening();
+	afx_msg void OnGraymorphClosing();
 };
 
 extern CImageToolDoc theDoc;

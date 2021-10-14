@@ -62,24 +62,59 @@ void CListenSocket::SendChatDataAll(TCHAR* pszMessage)
 		if (pClient != NULL)
 		{
 			pClient->Send(pszMessage, lstrlen(pszMessage) * 2);
-			if (0 == _tcscmp(pszMessage, _T(".noise")))
+			if (0 == _tcscmp(pszMessage, _T(".noise")) || 0 == _tcscmp(pszMessage, _T(".노이즈검출")))
 			{
 				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
 				pView->OnTest();
 			  
 			}
 
-			else if (0 == _tcscmp(pszMessage, _T(".point1")))
+			else if (0 == _tcscmp(pszMessage, _T(".point1"))|| 0 == _tcscmp(pszMessage, _T(".점검출1")))
 			{
 				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
 				pView->OnTestPoint();
 
 			}
-			else if (0 == _tcscmp(pszMessage, _T(".point2")))
+			else if (0 == _tcscmp(pszMessage, _T(".point2")) || 0 == _tcscmp(pszMessage, _T(".점검출2")))
 			{
 				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
 				pView->OnTestPoint2();
 
+			}
+			else if (0 == _tcscmp(pszMessage, _T(".sobel")) || 0 == _tcscmp(pszMessage, _T(".소벨마스크")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnEdgeSobel();
+
+			}
+			else if (0 == _tcscmp(pszMessage, _T(".roberts")) || 0 == _tcscmp(pszMessage, _T(".로버츠마스크")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnEdgeRoberts();
+
+			}
+			else if (0 == _tcscmp(pszMessage, _T(".prewitt")) || 0 == _tcscmp(pszMessage, _T(".프리윗마스크")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnEdgePrewitt();
+
+			}
+			else if (0 == _tcscmp(pszMessage, _T(".binary")) || 0 == _tcscmp(pszMessage, _T(".이진화")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnSegmentBinarization();
+
+			}
+			else if (0 == _tcscmp(pszMessage, _T(".label")) || 0 == _tcscmp(pszMessage, _T(".레이블링")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnSegmentLabeling();
+
+			}
+			else if (0 == _tcscmp(pszMessage, _T(".gray")) || 0 == _tcscmp(pszMessage, _T(".그레이스케일")))
+			{
+				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
+				pView->OnColorGrayscale();
 			}
 		}
 	}

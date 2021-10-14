@@ -123,7 +123,7 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_CONTOUR_TRACING, &CImageToolDoc::OnContourTracing)
 	ON_COMMAND(ID_TEST_POINT, &CImageToolDoc::OnTestPoint)
 	ON_COMMAND(ID_TEST_POINT2, &CImageToolDoc::OnTestPoint2)
-	ON_COMMAND(ID_PAINTON, &CImageToolDoc::OnPainton)
+	
 END_MESSAGE_MAP()
 
 
@@ -495,7 +495,7 @@ void CImageToolDoc::OnFilterMean()
 
 	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 	IppByteImage imgDst;
-	IppFilterMean(imgSrc, imgDst);
+	IppFilterMeanDLL(imgSrc, imgDst);
 	CONVERT_IMAGE_TO_DIB(imgDst, dib)
 
 	AfxPrintInfo(_T("[평균 값 필터 입력 영상 : %s"), GetTitle());
@@ -509,7 +509,7 @@ void CImageToolDoc::OnFilterWeightedMean()
 
 	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 	IppByteImage imgDst;
-	IppFilterWeightedMean(imgSrc, imgDst);
+	IppFilterWeightedMeanDLL(imgSrc, imgDst);
 	CONVERT_IMAGE_TO_DIB(imgDst, dib)
 
 	AfxPrintInfo(_T("[가중 평균 값 필터] 입력 영상: %s"), GetTitle());
@@ -540,7 +540,7 @@ void CImageToolDoc::OnFilterLaplacian()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 	IppByteImage imgDst;
-	IppFilterLaplacian(imgSrc, imgDst);
+	IppFilterLaplacianDLL(imgSrc, imgDst);
 	CONVERT_IMAGE_TO_DIB(imgDst, dib);
 
 	AfxPrintInfo(_T("[라플라시안 필터] 입력 영상: %s"),GetTitle());
@@ -553,7 +553,7 @@ void CImageToolDoc::OnFilterUnsharpMask()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 	IppByteImage imgDst;
-	IppFilterUnsharpMask(imgSrc, imgDst);
+	IppFilterUnsharpMaskDLL(imgSrc, imgDst);
 	CONVERT_IMAGE_TO_DIB(imgDst, dib);
 
 	AfxPrintInfo(_T("[언샤프 마스크 필터] 입력 영상: %s"), GetTitle());
@@ -567,7 +567,7 @@ void CImageToolDoc::OnFilterHighboost()
 	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 	IppByteImage imgDst;
 	float alpha = 1.2f;
-	IppFilterHighboost(imgSrc, imgDst,alpha);
+	IppFilterHighboostDLL(imgSrc, imgDst,alpha);
 	CONVERT_IMAGE_TO_DIB(imgDst, dib);
 
 	AfxPrintInfo(_T("[하이부스트 필터] 입력 영상: %s, a"),GetTitle());
@@ -585,9 +585,9 @@ void CImageToolDoc::OnAddNoise()
 		IppByteImage imgDst;
 		
 		if (dlg.m_nNoiseType == 0)
-			IppNoiseGaussian(imgSrc, imgDst, dlg.m_nAmount);
+			IppNoiseGaussianDLL(imgSrc, imgDst, dlg.m_nAmount);
 		else
-			IppNoiseSaltNPepper(imgSrc, imgDst, dlg.m_nAmount);
+			IppNoiseSaltNPepperDLL(imgSrc, imgDst, dlg.m_nAmount);
 
 		CONVERT_IMAGE_TO_DIB(imgDst, dib)
 
@@ -604,7 +604,7 @@ void CImageToolDoc::OnFilterMedian()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 		IppByteImage imgDst;
-	IppFliterMedian(imgSrc, imgDst);
+	IppFliterMedianDLL(imgSrc, imgDst);
 	CONVERT_IMAGE_TO_DIB(imgDst, dib);
 
 	AfxPrintInfo(_T("[미디언 필터] 입력 영상: %s"), GetTitle());
@@ -620,7 +620,7 @@ void CImageToolDoc::OnFilterDiffusion()
 	{
 		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
 			IppFloatImage imgDst;
-		IppFilterDiffusion(imgSrc, imgDst, dlg.m_fLambda,dlg.m_fK,dlg.m_nIteration);
+		IppFilterDiffusionDLL(imgSrc, imgDst, dlg.m_fLambda,dlg.m_fK,dlg.m_nIteration);
 		CONVERT_IMAGE_TO_DIB(imgDst, dib);
 
 		AfxPrintInfo(_T("[비등방성 확산 필터] 입력 영상: %s, Lambda: %4.2f, K: %4.2f, 반복 횟수: %d"), 
@@ -940,7 +940,7 @@ void CImageToolDoc::OnEdgeRoberts()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img);
 	IppByteImage imgEdge;
-	IppEdgeRoberts(img, imgEdge);
+	IppEdgeRobertsDLL(img, imgEdge);
 	CONVERT_IMAGE_TO_DIB(imgEdge, dib);
 
 	AfxPrintInfo(_T("[마스크 기반 엣지 검출/로버츠] 입력 영상: %s"), GetTitle());
@@ -953,7 +953,7 @@ void CImageToolDoc::OnEdgePrewitt()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img);
 	IppByteImage imgEdge;
-	IppEdgePrewitt(img, imgEdge);
+	IppEdgePrewittDLL(img, imgEdge);
 	CONVERT_IMAGE_TO_DIB(imgEdge, dib);
 
 	AfxPrintInfo(_T("[마스크 기반 엣지 검출/프리윗] 입력 영상: %s"), GetTitle());
@@ -966,7 +966,7 @@ void CImageToolDoc::OnEdgeSobel()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img);
 	IppByteImage imgEdge;
-	IppEdgeSobel(img, imgEdge);
+	IppEdgeSobelDLL(img, imgEdge);
 	CONVERT_IMAGE_TO_DIB(imgEdge, dib);
 
 	AfxPrintInfo(_T("[마스크 기반 엣지 검출/소벨] 입력 영상: %s"), GetTitle());
@@ -1684,7 +1684,7 @@ void CImageToolDoc::OnTestPoint()
 				{
 					CONVERT_IMAGE_TO_DIB(imgColor2, dib1)
 
-						AfxPrintInfo(_T("[레이블링] 입력 영상: %s, 검출한 점 갯수: %d"), GetTitle(), label_cnt);
+						AfxPrintInfo(_T("[점 검출 1] 입력 영상: %s, 검출한 점 갯수: %d"), GetTitle(), label_cnt);
 					AfxNewBitmap(dib1);
 				}
 				}
@@ -1726,7 +1726,7 @@ void CImageToolDoc::OnTestPoint()
 			{
 				CONVERT_IMAGE_TO_DIB(img, dib)
 
-					AfxPrintInfo(_T("[레이블링] 입력 영상: %s, 객체 갯수: %d"), GetTitle(), label_cnt);
+					AfxPrintInfo(_T("[점 검출 1] 입력 영상: %s, 검출한 점 갯수: %d"), GetTitle(), label_cnt);
 				AfxNewBitmap(dib);
 			}
 			}
@@ -1784,7 +1784,7 @@ void CImageToolDoc::OnTestPoint2()
 					{
 						CONVERT_IMAGE_TO_DIB(imgColor2, dib1)
 
-							AfxPrintInfo(_T("[레이블링] 입력 영상: %s, 객체 갯수: %d"), GetTitle(), label_cnt);
+							AfxPrintInfo(_T("[점 검출 2] 입력 영상: %s, 검출한 점 갯수: %d"), GetTitle(), label_cnt);
 						AfxNewBitmap(dib1);
 					}
 				}
@@ -1794,15 +1794,4 @@ void CImageToolDoc::OnTestPoint2()
 }
 
 
-void CImageToolDoc::OnPainton()
-{
-	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 
-	
-	
-
-
-	
-	
-
-}

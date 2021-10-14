@@ -308,13 +308,23 @@
 #define ID_GRAYMORPH_DILATION           32982
 #define ID_GRAYMORPH_OPENING            32983
 #define ID_GRAYMORPH_CLOSING            32984
+#define ID_32985                        32985
+#define ID_32986                        32986
+#define ID_32987                        32987
+#define ID_32988                        32988
+#define ID_32989                        32989
+#define ID_32990                        32990
+#define ID_32991                        32991
+#define ID_32992                        32992
+#define ID_32993                        32993
+#define ID_32994                        32994
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        349
-#define _APS_NEXT_COMMAND_VALUE         32985
+#define _APS_NEXT_COMMAND_VALUE         32995
 #define _APS_NEXT_CONTROL_VALUE         1060
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

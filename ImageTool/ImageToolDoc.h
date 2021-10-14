@@ -110,6 +110,7 @@ public:
 	afx_msg void OnTestPoint2();
 	
 	
+
 	afx_msg void OnMorphologyErosion();
 	afx_msg void OnMorphologyDilation();
 	afx_msg void OnMorphologyOpening();

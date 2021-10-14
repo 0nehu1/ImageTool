@@ -1867,7 +1867,6 @@ void CImageToolDoc::OnGraymorphErosion()
 
 		AfxPrintInfo(_T("[그레이스케일 모폴로지/침식] 입력 영상: %s"), GetTitle());
 	AfxNewBitmap(dib);
-	
 }
 
 

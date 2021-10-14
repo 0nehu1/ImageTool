@@ -146,21 +146,6 @@ void CListenSocket::SendChatDataAll(TCHAR* pszMessage)
 				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
 				pView->OnFilterHighboost();
 			}
-			else if (0 == _tcscmp(pszMessage, _T(".addnoise")) || 0 == _tcscmp(pszMessage, _T(".잡음추가")))
-			{
-				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
-				pView->OnAddNoise();
-			}
-			else if (0 == _tcscmp(pszMessage, _T(".median")) || 0 == _tcscmp(pszMessage, _T(".미디언")))
-			{
-				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
-				pView->OnFilterMedian();
-			}
-			else if (0 == _tcscmp(pszMessage, _T(".diffusion")) || 0 == _tcscmp(pszMessage, _T(".비등방성")))
-			{
-				CImageToolDoc* pView = (CImageToolDoc*)((CFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetActiveDocument();
-				pView->OnFilterDiffusion();
-			}
 		}
 	}
 }

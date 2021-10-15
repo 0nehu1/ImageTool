@@ -336,7 +336,7 @@ void CImageToolDoc::OnImageInverse()
 	else if (m_Dib.GetBitCount() == 24)
 	{
 		CONVERT_DIB_TO_RGBIMAGE(m_Dib, img)
-		IppInverse(img);
+		IppInverseDLL(img);
 		CONVERT_IMAGE_TO_DIB(img, dib)
 
 		AfxPrintInfo(_T("[반전] 입력 영상: %s"), GetTitle());
@@ -990,7 +990,7 @@ void CImageToolDoc::OnEdgeCanny()
 	{
 		CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 			IppByteImage imgEdge;
-		IppEdgeCanny(img, imgEdge, dlg.m_fSigma, dlg.m_fLowTh, dlg.m_fHighTh);
+		IppEdgeCannyDLL(img, imgEdge, dlg.m_fSigma, dlg.m_fLowTh, dlg.m_fHighTh);
 		CONVERT_IMAGE_TO_DIB(imgEdge, dib);
 		
 		AfxPrintInfo(_T("[캐니 엣지 검출]입력 영상: %s, sigma: %4.2f, Low Th: %4.2f, High Th: %4.2f")
@@ -1145,7 +1145,7 @@ void CImageToolDoc::OnTest2()
 				{
 					CONVERT_DIB_TO_BYTEIMAGE(dib, img)
 						std::vector<IppPoint> corners;
-					IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
+					IppHarrisCornerDLL(img, corners, dlg.m_nHarrisTh);
 
 					BYTE** ptr = img.GetPixels2D();
 
@@ -1213,7 +1213,7 @@ void CImageToolDoc::OnTest2()
 			{
 				CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 					std::vector<IppPoint> corners;
-				IppHarrisCorner(img, corners, dlg.m_nHarrisTh);
+				IppHarrisCornerDLL(img, corners, dlg.m_nHarrisTh);
 
 				BYTE** ptr = img.GetPixels2D();
 
@@ -1281,7 +1281,7 @@ void CImageToolDoc::OnColorSplitRgb()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
 		IppByteImage imgR, imgG, imgB;
-	IppColorSplitRGB(imgColor, imgR, imgG, imgB);
+	IppColorSplitRGBDLL(imgColor, imgR, imgG, imgB);
 	CONVERT_IMAGE_TO_DIB(imgR, dibR)
 		CONVERT_IMAGE_TO_DIB(imgG, dibG)
 		CONVERT_IMAGE_TO_DIB(imgB, dibB)
@@ -1298,7 +1298,7 @@ void CImageToolDoc::OnColorSplitHsi()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
 		IppByteImage imgH, imgS, imgI;
-	IppColorSplitHSI(imgColor, imgH, imgS, imgI);
+	IppColorSplitHSIDLL(imgColor, imgH, imgS, imgI);
 	CONVERT_IMAGE_TO_DIB(imgH, dibH)
 		CONVERT_IMAGE_TO_DIB(imgS, dibS)
 		CONVERT_IMAGE_TO_DIB(imgI, dibI)
@@ -1315,7 +1315,7 @@ void CImageToolDoc::OnColorSplitYuv()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CONVERT_DIB_TO_RGBIMAGE(m_Dib, imgColor)
 		IppByteImage imgY, imgU, imgV;
-	IppColorSplitYUV(imgColor, imgY, imgU, imgV);
+	IppColorSplitYUVDLL(imgColor, imgY, imgU, imgV);
 	CONVERT_IMAGE_TO_DIB(imgY, dibY)
 		CONVERT_IMAGE_TO_DIB(imgU, dibU)
 		CONVERT_IMAGE_TO_DIB(imgV, dibV)
@@ -1364,7 +1364,7 @@ void CImageToolDoc::OnColorCombineRgb()
 		CONVERT_DIB_TO_BYTEIMAGE(pDoc3->m_Dib, imgB);
 
 		IppRgbImage imgColor;
-		if (IppColorCombineRGB(imgR, imgG, imgB, imgColor) == false)
+		if (IppColorCombineRGBDLL(imgR, imgG, imgB, imgColor) == false)
 		{
 			AfxMessageBox(_T("영상의 크기가 다릅니다."));
 			return;
@@ -1396,7 +1396,7 @@ void CImageToolDoc::OnColorCombineHsi()
 		CONVERT_DIB_TO_BYTEIMAGE(pDoc3->m_Dib, imgI);
 
 		IppRgbImage imgColor;
-		if (IppColorCombineHSI(imgH, imgS, imgI, imgColor) == false)
+		if (IppColorCombineHSIDLL(imgH, imgS, imgI, imgColor) == false)
 		{
 			AfxMessageBox(_T("영상의 크기가 다릅니다."));
 			return;
@@ -1427,7 +1427,7 @@ void CImageToolDoc::OnColorCombineYuv()
 		CONVERT_DIB_TO_BYTEIMAGE(pDoc3->m_Dib, imgV);
 
 		IppRgbImage imgColor;
-		if (IppColorCombineYUV(imgY, imgU, imgV, imgColor) == false)
+		if (IppColorCombineYUVDLL(imgY, imgU, imgV, imgColor) == false)
 		{
 			AfxMessageBox(_T("영상의 크기가 다릅니다."));
 			return;
@@ -1447,7 +1447,7 @@ void CImageToolDoc::OnColorEdge()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CONVERT_DIB_TO_RGBIMAGE(m_Dib, img)
 		IppByteImage imgEdge;
-	IppColorEdge(img, imgEdge);
+	IppColorEdgeDLL(img, imgEdge);
 	CONVERT_IMAGE_TO_DIB(imgEdge, dib)
 
 		AfxPrintInfo(_T("[컬러 엣지 검출] 입력 영상: %s"), GetTitle());
@@ -1512,7 +1512,7 @@ void CImageToolDoc::OnContourTracing()
 	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img)
 		IppIntImage imgLabel;
 	std::vector<IppLabelInfo> labels;
-	int label_cnt = IppLabeling(img, imgLabel, labels);
+	int label_cnt = IppLabelingDLL(img, imgLabel, labels);
 	
 	IppByteImage imgContour(img.GetWidth(), img.GetHeight());
 	BYTE** ptr = imgContour.GetPixels2D();
@@ -1651,7 +1651,7 @@ void CImageToolDoc::OnTestPoint()
 		IppByteImage imgEdge;
 		IppRgbImage imgColor2;
 		imgColor2 = imgColor;
-		IppColorEdge(imgColor, imgEdge);
+		IppColorEdgeDLL(imgColor, imgEdge);
 		CONVERT_IMAGE_TO_DIB(imgEdge, dib)
 
 			

@@ -53,6 +53,8 @@
 #include "CBinarizationDlg.h"
 #include "IppImage\IppSegment.h"
 #include "..\DLLTool\dllmain.cpp"
+using namespace std;
+using namespace cv;
 
 
 
@@ -132,6 +134,9 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_GRAYMORPH_DILATION, &CImageToolDoc::OnGraymorphDilation)
 	ON_COMMAND(ID_GRAYMORPH_OPENING, &CImageToolDoc::OnGraymorphOpening)
 	ON_COMMAND(ID_GRAYMORPH_CLOSING, &CImageToolDoc::OnGraymorphClosing)
+	ON_COMMAND(ID_OPENCV_CANNY, &CImageToolDoc::OnOpencvCanny)
+	ON_COMMAND(ID_OPENCV_FACEDETECTION, &CImageToolDoc::OnOpencvFacedetection)
+	ON_COMMAND(ID_OPENCV_EYESDETECTION, &CImageToolDoc::OnOpencvEyesdetection)
 END_MESSAGE_MAP()
 
 
@@ -1905,5 +1910,103 @@ void CImageToolDoc::OnGraymorphClosing()
 	CONVERT_IMAGE_TO_DIB(imgDst, dib)
 
 		AfxPrintInfo(_T("[그레이스케일 모폴로지/닫기] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dib);
+}
+
+
+void CImageToolDoc::OnOpencvCanny()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
+
+	Mat mat;
+	IppImageToMat(imgSrc, mat);
+
+	Mat matEdge;
+	double lowTh = 50, highTh = 100;
+	Canny(mat, matEdge, lowTh, highTh, 3);
+
+	IppByteImage imgEdge;
+	IppMatToImage(matEdge, imgEdge);
+
+	CONVERT_IMAGE_TO_DIB(imgEdge, dib)
+
+		AfxNewBitmap(dib);
+}
+
+
+void CImageToolDoc::OnOpencvFacedetection()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	// 얼굴 패턴 학습 XML 파일 불러오기
+	String face_cascade_name = "haarcascade_frontalface_default.xml";
+	CascadeClassifier face_cascade;
+
+	if (!face_cascade.load(face_cascade_name))
+	{
+		AfxMessageBox(_T("XML 파일을 불러올 수 없습니다"));
+		return;
+	}
+
+	// IppDib -> IppByteImage -> Mat -> (얼굴 검출) -> IppByteImage -> IppDib
+
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
+
+		Mat mat;
+	IppImageToMat(imgSrc, mat);
+
+	std::vector<Rect> faces;
+	face_cascade.detectMultiScale(mat, faces, 1.1, 2, CASCADE_SCALE_IMAGE, Size(30, 30));
+
+	for (Rect face : faces)
+	{
+		rectangle(mat, face, Scalar(255, 0, 0), 2);
+	}
+
+	IppByteImage imgDst;
+	IppMatToImage(mat, imgDst);
+
+	CONVERT_IMAGE_TO_DIB(imgDst, dib)
+
+		AfxPrintInfo(_T("[OpenCV/Face Detection] 입력 영상: %s, 검출된 얼굴 개수: %d"),
+			GetTitle(), faces.size());
+	AfxNewBitmap(dib);
+}
+
+
+void CImageToolDoc::OnOpencvEyesdetection()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	String face_cascade_name = "haarcascade_eye.xml";
+	CascadeClassifier face_cascade;
+
+	if (!face_cascade.load(face_cascade_name))
+	{
+		AfxMessageBox(_T("XML 파일을 불러올 수 없습니다"));
+		return;
+	}
+
+	// IppDib -> IppByteImage -> Mat -> (얼굴 검출) -> IppByteImage -> IppDib
+
+	CONVERT_DIB_TO_BYTEIMAGE(m_Dib, imgSrc)
+
+		Mat mat;
+	IppImageToMat(imgSrc, mat);
+
+	std::vector<Rect> faces;
+	face_cascade.detectMultiScale(mat, faces, 1.1, 2, CASCADE_SCALE_IMAGE, Size(30, 30));
+
+	for (Rect face : faces)
+	{
+		rectangle(mat, face, Scalar(255, 0, 0), 2);
+	}
+
+	IppByteImage imgDst;
+	IppMatToImage(mat, imgDst);
+
+	CONVERT_IMAGE_TO_DIB(imgDst, dib)
+
+		AfxPrintInfo(_T("[OpenCV/Eye Detection] 입력 영상: %s, 검출된 눈 개수: %d"),
+			GetTitle(), faces.size());
 	AfxNewBitmap(dib);
 }

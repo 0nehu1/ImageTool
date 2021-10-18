@@ -119,6 +119,9 @@ public:
 	afx_msg void OnGraymorphDilation();
 	afx_msg void OnGraymorphOpening();
 	afx_msg void OnGraymorphClosing();
+	afx_msg void OnOpencvCanny();
+	afx_msg void OnOpencvFacedetection();
+	afx_msg void OnOpencvEyesdetection();
 };
 
 extern CImageToolDoc theDoc;

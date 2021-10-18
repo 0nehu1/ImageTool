@@ -318,13 +318,16 @@
 #define ID_32992                        32992
 #define ID_32993                        32993
 #define ID_32994                        32994
+#define ID_OPENCV_CANNY                 32995
+#define ID_OPENCV_FACEDETECTION         32996
+#define ID_OPENCV_EYESDETECTION         32997
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        349
-#define _APS_NEXT_COMMAND_VALUE         32995
+#define _APS_NEXT_COMMAND_VALUE         32998
 #define _APS_NEXT_CONTROL_VALUE         1060
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

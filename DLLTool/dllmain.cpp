@@ -5,7 +5,7 @@
 #include "framework.h"
 #include <afxwin.h>
 #include <afxdllx.h>
-
+#include <stdlib.h>
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -265,14 +265,14 @@ extern "C" __declspec(dllexport) int IppLabelingDLL(IppByteImage& imgSrc, IppInt
 					else
 					{
 						// 두 레이블이 서로 다른 경우, 작은 레이블을 부여
-						maxl = max(pMap[j - 1][i], pMap[j][i - 1]);
-						minl = min(pMap[j - 1][i], pMap[j][i - 1]);
+						maxl = __max(pMap[j - 1][i], pMap[j][i - 1]);
+						minl = __min(pMap[j - 1][i], pMap[j][i - 1]);
 
 						pMap[j][i] = minl;
 
 						// 등가 테이블 조정
-						min_eq = min(eq_tbl[maxl][1], eq_tbl[minl][1]);
-						max_eq = max(eq_tbl[maxl][1], eq_tbl[minl][1]);
+						min_eq = __min(eq_tbl[maxl][1], eq_tbl[minl][1]);
+						max_eq = __max(eq_tbl[maxl][1], eq_tbl[minl][1]);
 
 						eq_tbl[eq_tbl[max_eq][1]][1] = min_eq;
 					}
@@ -1040,7 +1040,7 @@ extern "C" __declspec(dllexport)void RGB_TO_HSIDLL(double R, double G, double B,
 	}
 	else
 	{
-		double min_rgb = min(min(R, G), B);
+		double min_rgb = __min(__min(R, G), B);
 		S = 1 - (min_rgb / I);
 
 		double ang = ((R - G) + (R - B)) / (2 * sqrt((R - G) * (R - G) + (R - B) * (G - B)));

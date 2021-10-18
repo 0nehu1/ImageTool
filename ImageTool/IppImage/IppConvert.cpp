@@ -1,4 +1,5 @@
 
+
 #include "stdafx.h"
 #include <assert.h>
 #include "IppConvert.h"
@@ -94,6 +95,82 @@ void IppImageToDib(IppRgbImage& img, IppDib& dib)
 	for (int i = 0; i < h; i++)
 	{
 		memcpy(&pDIBits[(h - 1 - i) * ws], pixels[i], w * 3);
+	}
+}
+
+void IppImageToMat(IppByteImage& img, cv::Mat& mat)
+{
+	int w = img.GetWidth();
+	int h = img.GetHeight();
+
+	mat.create(h, w, CV_8U);
+
+	BYTE** pSrc = img.GetPixels2D();
+
+	BYTE* pDst;
+	for (int j = 0; j < h; j++)
+	{
+		pDst = mat.ptr<BYTE>(j);
+		memcpy(pDst, pSrc[j], sizeof(BYTE) * w);
+	}
+
+
+}
+
+void IppImageToMat(IppRgbImage& img, cv::Mat& mat)
+{
+	int w = img.GetWidth();
+	int h = img.GetHeight();
+
+	mat.create(h, w, CV_8UC3);
+
+	RGBBYTE** pSrc = img.GetPixels2D();
+
+	RGBBYTE* pDst;
+	for (int j = 0; j < h; j++)
+	{
+		pDst = mat.ptr<RGBBYTE>(j);
+		memcpy(pDst, pSrc[j], sizeof(RGBBYTE) * w);
+	}
+}
+
+void IppMatToImage(cv::Mat& mat, IppByteImage& img)
+{
+	CV_Assert(mat.depth() == CV_8U);
+
+	int w = mat.cols;
+	int h = mat.rows;
+
+	img.CreateImage(w, h);
+
+	BYTE** pDst = img.GetPixels2D();
+
+	BYTE* pSrc;
+	for (int j = 0; j < h; j++)
+	{
+		pSrc = mat.ptr<BYTE>(j);
+		memcpy(pDst[j], pSrc, sizeof(BYTE) * w);
+	}
+
+
+}
+
+void IppMatToImage(cv::Mat& mat, IppRgbImage& img)
+{
+	CV_Assert(mat.depth() == CV_8UC3);
+
+	int w = mat.cols;
+	int h = mat.rows;
+
+	img.CreateImage(w, h);
+
+	RGBBYTE** pDst = img.GetPixels2D();
+
+	RGBBYTE* pSrc;
+	for (int j = 0; j < h; j++)
+	{
+		pSrc = mat.ptr<RGBBYTE>(j);
+		memcpy(pDst[j], pSrc, sizeof(RGBBYTE) * w);
 	}
 }
 
